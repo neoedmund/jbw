@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jbw", "jbw\jbw.vcproj", "{C244E35D-7148-4662-8547-7B40E4832BE1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jbw_ChaosLauncherInjector", "jbw_ChaosLauncherInjector\jbw_ChaosLauncherInjector.vcproj", "{F5AF5C11-F149-470A-BB31-A37A9A079763}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jbwnative", "jbwnative\jbwnative.vcproj", "{B76A30A9-E544-4B6C-9F4A-CF4AC1BB53A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C244E35D-7148-4662-8547-7B40E4832BE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C244E35D-7148-4662-8547-7B40E4832BE1}.Debug|Win32.Build.0 = Debug|Win32
+		{C244E35D-7148-4662-8547-7B40E4832BE1}.Release|Win32.ActiveCfg = Release|Win32
+		{C244E35D-7148-4662-8547-7B40E4832BE1}.Release|Win32.Build.0 = Release|Win32
+		{F5AF5C11-F149-470A-BB31-A37A9A079763}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F5AF5C11-F149-470A-BB31-A37A9A079763}.Debug|Win32.Build.0 = Debug|Win32
+		{F5AF5C11-F149-470A-BB31-A37A9A079763}.Release|Win32.ActiveCfg = Release|Win32
+		{F5AF5C11-F149-470A-BB31-A37A9A079763}.Release|Win32.Build.0 = Release|Win32
+		{B76A30A9-E544-4B6C-9F4A-CF4AC1BB53A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B76A30A9-E544-4B6C-9F4A-CF4AC1BB53A3}.Debug|Win32.Build.0 = Debug|Win32
+		{B76A30A9-E544-4B6C-9F4A-CF4AC1BB53A3}.Release|Win32.ActiveCfg = Release|Win32
+		{B76A30A9-E544-4B6C-9F4A-CF4AC1BB53A3}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
