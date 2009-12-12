@@ -1,0 +1,25 @@
+ J B W 
+
+C++ projects is develop using VC++ 2008 Express.
+Java project is develop using Eclipse, JDK6.
+
+cpp/jbw
+	generates jbw.dll
+	it create a JVM when a game begins.
+	and call JVM's method on game frame event and other events.
+
+cpp/jbw_ChaosLauncherInjector
+	generates chaos plugin bwl file(jbwplugin.bwl), it will load cpp/jbw(jbw.dll)
+
+cpp/jbwnative
+	generates jbwnative.dll. 
+	which is used my jbwjava to access the BW space. read and write data.
+	it should run on 32bit windows.
+
+java/jbwjava
+	the java code running in the JVM.
+	
+you can also create you own java projects to deal with jbwjava or just write your ai in jbwjava.
+
+neoe
+2009/12/12
