@@ -4,6 +4,28 @@ import neoe.jbw.BW;
 
 public class Struct {
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + base;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Struct other = (Struct) obj;
+		if (base != other.base)
+			return false;
+		return true;
+	}
+
 	public final int base;
 
 	public Struct(int offset) {
@@ -61,7 +83,6 @@ public class Struct {
 	}
 
 	protected Position getPosition(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Position(i + base);
 	}
 }

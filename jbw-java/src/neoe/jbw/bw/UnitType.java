@@ -7,7 +7,7 @@ public class UnitType extends Struct {
 	private int id;
 
 	public UnitType(int id) {
-		super(0);
+		super(id);
 		this.id = id;
 	}
 

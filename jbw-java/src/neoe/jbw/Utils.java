@@ -34,10 +34,17 @@ public class Utils {
 			all.add(u);
 			p += BW.UNIT_SIZE_IN_BYTES;
 			u = new Unit(p);
-			Log.log("base=" + u.base);
 		}
 		Log.log("getAllUnits count=" + all.size());
 		return all;
+	}
+
+	public static boolean sameList(List<Unit> a, List<Unit> b) {
+		if (a.size()!=b.size())return false;
+		for(int i=0;i<a.size();i++){
+			if (!a.get(i).equals(b.get(i)))return false;
+		}
+		return true;
 	}
 
 }
