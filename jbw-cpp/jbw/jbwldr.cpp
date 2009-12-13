@@ -98,18 +98,31 @@ void JBW::createJVM(){
 	}else{
 		Util::Logger::globalLog->log("JNI_CreateJavaVM @ %x", createFn);		
 	}
+#define ENV_BUFFER_SIZE 1024
+	char envBuffer[ENV_BUFFER_SIZE];
+	DWORD result = GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+	if (result == 0)
+		result = GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer);
 
-	JavaVMOption options[2];
+	if (result == 0)
+	{
+		MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK);   
+	}
+
+	std::string ChaosDir(envBuffer);
+	Util::Logger::globalLog->log("ChaosDir=%s", envBuffer);
+	std::string  s1="-Djava.class.path="+ChaosDir+"\\jbw.jar";
+	std::string  s2="-Djava.library.path="+ChaosDir;
+	JavaVMOption options[3];
 	// java
-	options[0].optionString =
-		"-Djava.class.path=c:\\long\\jbw.jar";
+	options[0].optionString =(char *)s1.c_str();
 	//where jni native impl dll is in (jbwnative.dll)
-	options[1].optionString =
-		"-Djava.library.path=c:\\long";
+	options[1].optionString =(char *)s2.c_str();
+	options[2].optionString ="-Xmx256M";
 	JavaVMInitArgs vm_args;
 	vm_args.version = JNI_VERSION_1_6;
 	vm_args.options = options;
-	vm_args.nOptions = 2;
+	vm_args.nOptions = 3;
 	vm_args.ignoreUnrecognized = false;
 
 	/* Create the Java VM */

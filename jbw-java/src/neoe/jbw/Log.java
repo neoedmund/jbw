@@ -13,7 +13,7 @@ public class Log {
 	public static synchronized void log(Object s) {
 		try {
 			if (out == null) {
-				out = new FileWriter("t:/jbw.txt");
+				out = new FileWriter("t:/jbwjava.log");
 			}
 			d.setTime(System.currentTimeMillis());
 			out.write("[" + sdf.format(d) + "]" + s+"\r\n");
