@@ -3,7 +3,7 @@ package neoe.jbw;
 public class Main {
 
 	private static final String UTF8 = "utf8";
-	private static int frame;
+	public static int frame;
 
 	public static void initJVM() {
 		Log.log("initJVM");
@@ -24,13 +24,14 @@ public class Main {
 		if (frame == 0) {
 			Log.log("onMatchFrame");
 			try {
-				Log.log(Offset.getStr(Offset.BWDATA_CurrentPlayerName));
-				Log.log(Offset.getStr(Offset.BWDATA_CurrentMapFileName));
-				Log.log(Offset.getStr(Offset.BWDATA_CurrentMapName));
+				Log.log(BW.getStr(BW.BWDATA_CurrentPlayerName));
+				Log.log(BW.getStr(BW.BWDATA_CurrentMapFileName));
+				Log.log(BW.getStr(BW.BWDATA_CurrentMapName));
 			} catch (Throwable e) {
 				Log.log(e.toString());
 			}
 			game = new Game();
+			game.start();
 		}
 		frame++;
 		game.onFrame();		

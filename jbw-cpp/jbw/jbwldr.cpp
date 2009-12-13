@@ -29,7 +29,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 		}
 		break;
 	case DLL_PROCESS_DETACH:		
-		JBW::destoryJVM();
+		//JBW::destoryJVM();
 		break;
 
 	}

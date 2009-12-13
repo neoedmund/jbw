@@ -11,11 +11,9 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Main.java"/>
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Game.java"/>
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Log.java"/>
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Offset.java"/>
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Utils.java"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw.bw"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe"/>
     </selectedElements>
     <fatjar builder="org.eclipse.jdt.ui.plain_jar_builder" launchConfig=""/>
 </jardesc>
