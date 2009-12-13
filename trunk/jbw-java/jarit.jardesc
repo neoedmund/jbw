@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="MS932" standalone="no"?>
 <jardesc>
-    <jar path="C:/long/jbw.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/jbw/jarit.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="C:/long/oss/scbw/Chaoslauncher/jbw.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/jbw-java/jarit.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,7 +11,11 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=jbw/src"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Main.java"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Game.java"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Log.java"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Offset.java"/>
+        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw{Utils.java"/>
     </selectedElements>
     <fatjar builder="org.eclipse.jdt.ui.plain_jar_builder" launchConfig=""/>
 </jardesc>

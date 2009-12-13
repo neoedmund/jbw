@@ -127,7 +127,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="&quot;C:\Program Files\Java\jdk1.6.0_17\lib\jvm.lib&quot;"
-				OutputFile="c:\long\$(ProjectName).dll"
+				OutputFile="$(ChaosDir)\$(ProjectName).dll"
 				GenerateDebugInformation="false"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
