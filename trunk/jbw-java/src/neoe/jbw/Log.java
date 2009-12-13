@@ -16,7 +16,8 @@ public class Log {
 				out = new FileWriter("t:/jbwjava.log");
 			}
 			d.setTime(System.currentTimeMillis());
-			out.write("[" + sdf.format(d) + "]" + s+"\r\n");
+			out.write("[" + sdf.format(d) + " f" + Main.frame + "]" + s
+					+ "\r\n");
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

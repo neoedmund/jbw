@@ -11,6 +11,8 @@ JavaVM * JBW::x_jvm;
 jclass JBW::x_cls;
 jmethodID JBW::jonMatchEnd;
 jmethodID JBW::jonMatchFrame;
+jmethodID JBW::jonText;
+jmethodID JBW::jonUnitDeath;
 
 static void loadJVMDll();
 
@@ -148,6 +150,8 @@ void JBW::createJVM(){
 	Util::Logger::globalLog->log("JVM inited %x",x_env);
 	JBW::jonMatchEnd=x_env->GetStaticMethodID(x_cls, "onMatchEnd","()V");
 	JBW::jonMatchFrame=x_env->GetStaticMethodID(x_cls, "onMatchFrame","()V");
+	JBW::jonText=x_env->GetStaticMethodID(x_cls, "onText","(Ljava/lang/String;)V");
+	JBW::jonUnitDeath=x_env->GetStaticMethodID(x_cls, "onUnitDeath","(I)V");
 	Util::Logger::globalLog->log("java event method got");
 	return;
 destroy:
@@ -171,4 +175,10 @@ void JBW::onMatchEnd(){
 }
 void JBW::onMatchFrame(){
 	JBW::x_env->CallStaticVoidMethod(JBW::x_cls, JBW::jonMatchFrame, NULL);
+}
+void JBW::onText(const char* text){
+	JBW::x_env->CallStaticVoidMethod(JBW::x_cls, JBW::jonText, x_env->NewStringUTF(text));
+}
+void JBW::onUnitDeath(BW::Unit* unit){
+	JBW::x_env->CallStaticVoidMethod(JBW::x_cls, JBW::jonUnitDeath, unit);
 }

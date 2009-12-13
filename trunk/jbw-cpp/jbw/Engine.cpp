@@ -23,9 +23,11 @@ namespace BWAPI
 			JBW::onMatchEnd();
 		}
 		bool onSendText(const char* text){return true;}
-		void onUnitDeath(BW::Unit* unit){}
+		void onUnitDeath(BW::Unit* unit){JBW::onUnitDeath(unit);}
 		void onDllLoad(){}
-		void onMessageIntercepted(const char* text){}
+		void onMessageIntercepted(const char* text){
+			JBW::onText(text);
+		}
 		void onMatchDrawHigh(){}
 	}
 };

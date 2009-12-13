@@ -1,5 +1,7 @@
 package neoe.jbw;
 
+import neoe.jbw.bw.Unit;
+
 public class Main {
 
 	private static final String UTF8 = "utf8";
@@ -16,6 +18,13 @@ public class Main {
 		Log.log("onMatchEnd");
 		game.onEnd();
 		frame = 0;
+	}
+	
+	public static void onText(String text){
+		game.onText(text);
+	}
+	public static void onUnitDeath(int unitp){
+		game.onUnitDeath(new Unit(unitp));
 	}
 
 	static Game game;
