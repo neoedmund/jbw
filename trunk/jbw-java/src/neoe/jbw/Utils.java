@@ -11,7 +11,6 @@ public class Utils {
 		// int addr = BW.u32(BW.BWDATA_UnitNodeChain_VisibleUnit_First);
 		int pv = BW.u32(BW.BWDATA_UnitNodeChain_VisibleUnit_First);
 		Unit u = new Unit(pv);
-		Log.log("getVisibleUnits " + Integer.toHexString(u.base));
 		List<Unit> all = new ArrayList<Unit>();
 		while (u.base != 0) {
 			all.add(u);
@@ -20,7 +19,17 @@ public class Utils {
 		Log.log("getVisibleUnits count=" + all.size());
 		return all;
 	}
-
+	public static List<Unit> getMyUnits() {//not my unit?
+		int pv = BW.u32(BW.BWDATA_UnitNodeChain_PlayerFirstUnit);
+		Unit u = new Unit(pv);
+		List<Unit> all = new ArrayList<Unit>();
+		while (u.base != 0) {
+			all.add(u);
+			u = u.nextUnit();
+		}
+		Log.log("getMyUnits count=" + all.size());
+		return all;
+	}
 	public static List<Unit> getAllUnits() {
 		// has problem
 		int cnt = BW.u32(BW.BWDATA_UnitNodeTable_UsedNodeCount);
@@ -48,3 +57,8 @@ public class Utils {
 	}
 
 }
+/*
+ * for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++)
+        if (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
+          this->BWAPIPlayer = this->players[i];
+*/

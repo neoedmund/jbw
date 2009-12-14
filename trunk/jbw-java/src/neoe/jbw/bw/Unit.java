@@ -1,5 +1,7 @@
 package neoe.jbw.bw;
 
+import neoe.jbw.BW;
+
 public class Unit extends Struct {
 	public Unit(int offset) {
 		super(offset);
@@ -8,8 +10,11 @@ public class Unit extends Struct {
 	public String toStr1() {
 		Unit u = this;
 		Position p = u.position();
-		return String.format("@0x%s(%d/%d)%s[%d](%d,%d)",Integer.toHexString(base), u.healthPoints(), u
-				.shieldPoints(), u.unitID().getName(),u.playerID(), p.x(), p.y());
+		return String.format("#%d@0x%s(%d/%d)%s[%d](%d,%d)",
+				(base - BW.BWDATA_UnitNodeTable)
+						/ BW.UNIT_SIZE_IN_BYTES, Integer.toHexString(base), u
+						.healthPoints(), u.shieldPoints(),
+				u.unitID().getName(), u.playerID(), p.x(), p.y());
 	}
 
 	// parsed
@@ -185,7 +190,7 @@ public class Unit extends Struct {
 
 	/** < Bw shows this value/256 */
 	public int shieldPoints() {
-		return u32(0x060)/256;
+		return u32(0x060) / 256;
 	}
 
 	/** < Specifies the type of unit. */

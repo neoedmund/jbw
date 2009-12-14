@@ -1,6 +1,5 @@
 package neoe.jbw;
 
-import java.util.Arrays;
 
 public class BW {
 	public static final int BW_UnitTypeIDs_None = 0xE4;
@@ -29,13 +28,16 @@ public class BW {
 	public static final int WEAPON_TYPE_COUNT = 130;
 
 	public static native byte[] getBytes(int offset, int size);
-
 	public static native String getStr(int offset);
-
+	public static native void print(int id, String s);
+	
 	public static int u16(int offset) {
 		return Bytes.u16(getBytes(offset, 2));
 	}
-
+	// static Unit**         
+	// Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
+	public static final int BWDATA_UnitNodeChain_PlayerFirstUnit    = 		0x006283F8;      
+	 
 	// static Unit**
 	public static final int BWDATA_UnitNodeChain_VisibleUnit_First = 0x00628430; // 1.16.1
 	// static Unit**
