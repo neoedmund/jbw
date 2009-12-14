@@ -22,8 +22,9 @@ public class Game {
 			}
 			if (!Utils.sameList(selected,lastSelect)) {
 				for (Unit u : selected) {
-					Log.log(u.toStr1());
+					Log.log("select "+u.toStr1());
 				}
+				BW.print(8, "selected "+selected.size());
 				lastSelect = selected;
 			}
 		}
@@ -36,10 +37,12 @@ public class Game {
 	}
 
 	public void start() {
+		BW.print(8, "JVM created");
+		BW.print(-1, "enjoy");
 		Log.log("game start");
 		int i = 0;
-		for (Unit u : Utils.getVisibleUnits()) {
-			Log.log(String.format("#%d%s", i++, u.toStr1()));
+		for (Unit u : Utils.getMyUnits()) {
+			Log.log(String.format("[%d]%s", i++, u.toStr1()));
 		}
 	}
 
@@ -50,10 +53,6 @@ public class Game {
 
 	public void onUnitDeath(Unit unit) {
 		Log.log("[DEAD]"+unit.toStr1());
-		int i = 0;
-		for (Unit u : Utils.getVisibleUnits()) {
-			Log.log(String.format("#%d%s", i++, u.toStr1()));
-		}
 	}
 
 }
