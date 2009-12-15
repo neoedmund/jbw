@@ -11,9 +11,7 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw"/>
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe.jbw.bw"/>
-        <javaElement handleIdentifier="=jbw-java/src&lt;neoe"/>
+        <javaElement handleIdentifier="=jbw-java"/>
     </selectedElements>
     <fatjar builder="org.eclipse.jdt.ui.plain_jar_builder" launchConfig=""/>
 </jardesc>

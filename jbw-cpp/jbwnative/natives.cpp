@@ -50,3 +50,34 @@ Java_neoe_jbw_BW_print(JNIEnv *env, jobject obj, jint id, jstring s)
 	}
 	env->ReleaseStringUTFChars(s, txtout);
 }
+static unsigned int BWFXN_NewIssueCommand = 0x00485BD9;
+void __declspec(naked) IssueNewCommand()
+{
+	//execute the part of the function that we overwrote:
+	__asm
+	{
+		push ebp
+			mov ebp, esp
+			push ecx
+			mov eax, dword ptr ds: [0x654AA0]
+		jmp [BWFXN_NewIssueCommand]
+	}
+}
+void issueCommandFromMemory(void *pbBuffer, int iSize)
+{
+	__asm
+	{
+		mov ecx, pbBuffer
+			mov edx, iSize
+	}
+	IssueNewCommand();
+}
+//native void command(byte[] combytes, int byteslen);
+extern "C"
+JNIEXPORT void JNICALL 
+Java_neoe_jbw_BW_command(JNIEnv *env, jobject obj, jbyteArray ba, jint len)
+{
+	jbyte * buf = env->GetByteArrayElements(ba, false); 
+	issueCommandFromMemory((void *)buf, len);
+	env->ReleaseByteArrayElements(ba, buf, JNI_ABORT);
+}
