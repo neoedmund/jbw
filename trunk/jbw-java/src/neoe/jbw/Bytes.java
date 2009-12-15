@@ -7,7 +7,7 @@ public class Bytes {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(u16(new byte[] { 0x12, 0x34 }));
+		System.out.println(Integer.toHexString(u16(new byte[] {(byte)0xe4,0x00 })));
 		System.out.println(0x1234);
 		System.out.println(Integer.toHexString(u32(new byte[] { -24, -16, 97, 0 })));
 		System.out.println(Integer.toHexString(0x12345678));
