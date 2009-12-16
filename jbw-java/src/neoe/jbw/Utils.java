@@ -1,11 +1,9 @@
 package neoe.jbw;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import neoe.jbw.bw.Unit;
-import neoe.jbw.cmd.Command;
 
 public class Utils {
 
@@ -80,38 +78,4 @@ public class Utils {
 		}
 		return playId;
 	}
-
-	/**add command to the buffer*/
-	public static void cmd(Command cmd) {
-		Command.cmdList.add(cmd);		
-	}
-
-	static void issueFrameCommand() {
-		Command cmd = Command.cmdList.get(0);	
-		
-		if (cmd.units.size() > 12) {		
-			List<Unit> units = new ArrayList<Unit>(cmd.units.subList(0, 12));
-			cmd.units=cmd.units.subList(12,cmd.units.size());
-			byte[] bs = Command.select(units);
-			Log.log("cmd1="+Arrays.toString(bs));
-			BW.command(bs, bs.length);
-			bs = cmd.getBytes();
-			Log.log("cmd2="+Arrays.toString(bs));
-			BW.command(bs, bs.length);
-		} else {
-			byte[] bs = Command.select(cmd.units);
-			Log.log("cmd3="+Arrays.toString(bs));
-			BW.command(bs, bs.length);
-			bs = cmd.getBytes();
-			Log.log("cmd4="+Arrays.toString(bs));
-			BW.command(bs, bs.length);
-			Command.cmdList.remove(0);
-		}		
-	}
-
 }
-/*
- * for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; i++) if
- * (strcmp(BW::BWDATA_CurrentPlayer, this->players[i]->getName().c_str()) == 0)
- * this->BWAPIPlayer = this->players[i];
- */
