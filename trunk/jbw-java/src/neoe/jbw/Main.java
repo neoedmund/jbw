@@ -1,7 +1,5 @@
 package neoe.jbw;
 
-import java.util.Vector;
-
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.cmd.Command;
@@ -48,12 +46,10 @@ public class Main {
 				welcomeMessage();
 			}
 			frame++;
-			if (Command.cmdList.size() > 0) {
-				Log.log("Command.cmdList.size=" + Command.cmdList.size());
+			if (Command.hasCommand()) {
+				Command.issueFrameCommand();
 
-				Utils.issueFrameCommand();
-
-			} else {
+			} else { 
 				game.onFrame();
 			}
 		} catch (Throwable e) {
@@ -84,7 +80,7 @@ public class Main {
 			players[i] = new Player(i);
 		}
 		playId = Utils.getPlayId();
-		Command.cmdList = new Vector<Command>();
+		Command.initQueue();
 		game = new Game();
 		game.start();
 	}

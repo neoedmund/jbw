@@ -5,7 +5,8 @@ import java.util.List;
 
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
-import neoe.jbw.cmd.AttackMove;
+import neoe.jbw.cmd.Command;
+import neoe.jbw.cmd.Name;
 
 public class Game {
 	List<Unit> lastSelect = new ArrayList<Unit>();
@@ -26,7 +27,8 @@ public class Game {
 	private void letAllGotoFenix() {
 		// Fenix(1271,1853)
 		Log.log("letAllGotoFenix");
-		Utils.cmd(new AttackMove(Utils.getMyUnits(), new Pos(1271, 1853)));
+		Command.add(Name.Attack, Utils.getMyUnits(), new Pos(1271,
+				1853));
 	}
 
 	private void logSelected() {
