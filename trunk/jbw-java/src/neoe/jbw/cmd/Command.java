@@ -85,10 +85,17 @@ public class Command {
 
 	public List<Unit> units;
 
-	public Command(Name name, List<Unit> units, Pos pos) {
+	private int unitid;
+
+	public Command(Name name, Pos pos,int unitid) {
+		this.name = name;
+		this.pos = pos;
+		this.unitid=unitid;
+	}
+
+	public Command(Name name, List<Unit> units) {
 		this.name = name;
 		this.units = units;
-		this.pos = pos;
 	}
 
 	private byte[] Attack() {
@@ -179,7 +186,7 @@ public class Command {
 		else if (name == RightClick)
 			return RightClick();		
 		else if (name == TrainUnit)
-			return TrainUnit();
+			return TrainUnit(unitid);
 		else if (name == TrainFighter)
 			return TrainFighter();
 		else if (name == MakeBuilding)
@@ -378,8 +385,8 @@ public class Command {
 		return getBytes1(m);
 	}
 
-	private byte[] TrainUnit() {
-		Object[] m = {};// TODO
+	private byte[] TrainUnit(int unitid) {
+		Object[] m = {0x1f, new U16(unitid)};
 		return getBytes1(m);
 	}
 
@@ -442,17 +449,16 @@ public class Command {
 		cmdQueue = new ConcurrentLinkedQueue<Command>();
 	}
 
-	public static void add(Name cmdname, List<Unit> cmdunits, Pos cmdpos) {
-		Command act = new Command(cmdname, null, cmdpos);
+	public static void add(Command act,List<Unit> cmdunits) {
 		while (cmdunits.size() > 12) {
 			List<Unit> units = new ArrayList<Unit>(cmdunits.subList(0, 12));
 			cmdunits = cmdunits.subList(12, cmdunits.size());
-			cmdQueue.add(new Command(Name.Select, units, null));
+			cmdQueue.add(new Command(Name.Select, units));
 			cmdQueue.add(act);
 		}
 		if (cmdunits.size() > 0) {
 			cmdQueue.add(new Command(Name.Select,
-					new ArrayList<Unit>(cmdunits), null));
+					new ArrayList<Unit>(cmdunits)));
 			cmdQueue.add(act);
 		}
 	}

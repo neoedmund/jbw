@@ -4,7 +4,7 @@ import neoe.jbw.BW;
 
 public class UnitType extends Struct {
 
-	private int id;
+	public int id;
 
 	public UnitType(int id) {
 		super(id);
