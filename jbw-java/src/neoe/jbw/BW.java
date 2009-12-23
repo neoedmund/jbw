@@ -1,5 +1,8 @@
 package neoe.jbw;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BW {
 	// (Players*)
 	public static final int BWDATA_Players = 0x0057EEE0; // 1.16.1
@@ -32,7 +35,24 @@ public class BW {
 	public static final int UPGRADE_TYPE_COUNT = 66;
 	public static final int WEAPON_TYPE_COUNT = 130;
 
-	public static native byte[] getBytes(int offset, int size);
+	private static native byte[] getBytes(int offset, int size);
+
+	public static byte[] getBytes1(int offset, int size) {
+		if (cacheFrame != Main.frame) {
+			cacheFrame = Main.frame;
+			cache.clear();
+		}
+		String key = offset + ":" + size;
+		byte[] bs = cache.get(key);
+		if (bs == null) {
+			bs = getBytes(offset, size);
+			cache.put(key, bs);
+		}
+		return bs;
+	}
+
+	static Map<String, byte[]> cache = new HashMap<String, byte[]>();
+	static int cacheFrame = -1;
 
 	public static native String getStr(int offset);
 
@@ -41,7 +61,7 @@ public class BW {
 	public static native void command(byte[] combytes, int byteslen);
 
 	public static int u16(int offset) {
-		return Bytes.u16(getBytes(offset, 2));
+		return Bytes.u16(getBytes1(offset, 2));
 	}
 
 	// static Unit**
@@ -63,12 +83,12 @@ public class BW {
 	public static final int BWDATA_UnitNodeTable_FirstElement = 0x00628430;
 
 	public static int u32(int offset) {
-		int v = Bytes.u32(getBytes(offset, 4));
+		int v = Bytes.u32(getBytes1(offset, 4));
 		return v;
 	}
 
 	public static int u8(int offset) {
-		return Bytes.u8(getBytes(offset, 1)[0]);
+		return Bytes.u8(getBytes1(offset, 1)[0]);
 	}
 
 }
