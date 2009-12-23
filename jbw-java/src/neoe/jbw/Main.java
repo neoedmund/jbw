@@ -31,7 +31,7 @@ public class Main {
 	}
 
 	static Game game;
-	public static int playId = -1;
+	public static int playerId = -1;
 	public static Player[] players;
 
 	public static void onMatchFrame() {
@@ -79,7 +79,7 @@ public class Main {
 		for (int i = 0; i < BW.PLAYER_COUNT; i++) {
 			players[i] = new Player(i);
 		}
-		playId = Utils.getPlayId();
+		playerId = Utils.getPlayId();
 		Command.initQueue();
 		game = new Game();
 		game.start();

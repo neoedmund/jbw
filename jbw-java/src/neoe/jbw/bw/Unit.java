@@ -10,11 +10,11 @@ public class Unit extends Struct {
 	public String toStr1() {
 		Unit u = this;
 		Position p = u.position();
-		return String.format("#%d@0x%s(%d/%d)%s[%d](%d,%d)",
+		return String.format("#%d@0x%s(%d/%d)%s,%d[%d](%d,%d)",
 				(base - BW.BWDATA_UnitNodeTable)
 						/ BW.UNIT_SIZE_IN_BYTES, Integer.toHexString(base), u
 						.healthPoints(), u.shieldPoints(),
-				u.unitID().getName(), u.playerID(), p.x(), p.y());
+				u.unitID().getName(),u.unitID().id, u.playerID(), p.x(), p.y());
 	}
 
 	// parsed
@@ -264,7 +264,7 @@ public class Unit extends Struct {
 	 * with #buildQueueSlot index.
 	 */
 	public IntArr buildQueue() {
-		return u16array(0x098, 5);
+		return u16array(0x098, 5, buildQueueSlot());
 	}
 
 	/** < Energy Points */
@@ -273,7 +273,7 @@ public class Unit extends Struct {
 	}
 
 	/** < Index of active unit in #buildQueue. */
-	public int buildQueueSlot() {
+	private int buildQueueSlot() {
 		return u8(0x0A4);
 	}
 
@@ -302,7 +302,7 @@ public class Unit extends Struct {
 
 	/** Child unit information (structure depends on unitID */
 	public IntArr loadedUnitIndex() {
-		return u16array(0x0B0, 8);
+		return u16array(0x0B0, 8,0);
 	}
 
 	// TODO:union ChildInfoUnion_type

@@ -3,6 +3,8 @@ package neoe.jbw;
 public class BW {
 	// (Players*)
 	public static final int BWDATA_Players = 0x0057EEE0; // 1.16.1
+	// (Supplies*)
+	public static final int BWDATA_Supplies = 0x00582144;
 	// (PlayerResources*)
 	public static final int BWDATA_PlayerResources = 0x0057F0F0;
 	public static final int BW_UnitTypeIDs_None = 0xE4;

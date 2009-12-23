@@ -12,6 +12,8 @@ public class Game {
 	List<Unit> lastSelect = new ArrayList<Unit>();
 	private Player me;
 	private int st;
+	boolean buildMode = true;
+	BuildHelp buildHelp;
 
 	public void onFrame() {
 		logSelected();
@@ -22,13 +24,18 @@ public class Game {
 			}
 			st = 1;
 		}
+		if (buildMode ) {
+			buildHelp.run();
+		}
 	}
+
+	
 
 	private void letAllGotoFenix() {
 		// Fenix(1271,1853)
 		Log.log("letAllGotoFenix");
-		Command.add(Name.Attack, Utils.getMyUnits(), new Pos(1271,
-				1853));
+		Command.add(new Command(Name.Attack, new Pos(1271, 1853), 0), Utils
+				.getMyUnits());
 	}
 
 	private void logSelected() {
@@ -60,8 +67,8 @@ public class Game {
 	public void start() {
 		BW.print(8, "JVM created");
 		Log.log("game start");
-		me = Main.players[Main.playId];
-		Log.log("playid=" + Main.playId + ":" + me.xid());
+		me = Main.players[Main.playerId];
+		Log.log("playid=" + Main.playerId + ":" + me.xid());
 		int i = 0;
 		for (Unit u : Utils.getVisibleUnits()) {
 			Log.log(String.format("[%d]%s", i++, u.toStr1()));
@@ -71,10 +78,15 @@ public class Game {
 		for (Unit u : Utils.getMyUnits()) {
 			Log.log(String.format("[%d]%s", i++, u.toStr1()));
 		}
+		buildHelp=new BuildHelp(this);
 	}
 
 	public void onText(String text) {
 		Log.log("[TEXT]" + text);
+		if ("build".equals(text)) {
+			buildMode = !buildMode;
+			Utils.print("build helper " + (buildMode ? "enabled" : "disabled"));
+		}
 
 	}
 
