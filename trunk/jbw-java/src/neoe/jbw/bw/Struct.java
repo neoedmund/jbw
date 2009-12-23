@@ -45,11 +45,11 @@ public class Struct {
 	}
 
 	protected IntArr u16array(int i, int size, int start) {
-		return new IntArr(BW.getBytes(base+i, size*2), start);
+		return new IntArr(BW.getBytes1(base+i, size*2), start);
 	}
 
 	protected byte[] u8array(int i, int size) {
-		return BW.getBytes(base+i, size);
+		return BW.getBytes1(base+i, size);
 	}
 
 	protected int u8(int i) {

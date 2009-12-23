@@ -1,6 +1,7 @@
 package neoe.jbw.bw;
 
 import neoe.jbw.BW;
+import neoe.jbw.Pos;
 
 public class Position extends Struct {
 
@@ -9,6 +10,9 @@ public class Position extends Struct {
 
 	public Position(int offset) {
 		super(offset);
+	}
+	public Pos toPos(Unit u) {
+		return new Pos(x(),y(),u==null?0:u.bwId());
 	}
 
 	

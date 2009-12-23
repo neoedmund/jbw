@@ -72,7 +72,7 @@ public class Command {
 				Pos p = (Pos) o;
 				ba.add(new U16(p.x));
 				ba.add(new U16(p.y));
-				ba.add(new U16(0));
+				ba.add(new U16(p.uid));
 			} else
 				ba.add((Integer) o);
 		}
@@ -87,10 +87,10 @@ public class Command {
 
 	private int unitid;
 
-	public Command(Name name, Pos pos,int unitid) {
+	public Command(Name name, Pos pos, int unitid) {
 		this.name = name;
 		this.pos = pos;
-		this.unitid=unitid;
+		this.unitid = unitid;
 	}
 
 	public Command(Name name, List<Unit> units) {
@@ -184,7 +184,7 @@ public class Command {
 		else if (name == Attack)
 			return Attack();
 		else if (name == RightClick)
-			return RightClick();		
+			return RightClick();
 		else if (name == TrainUnit)
 			return TrainUnit(unitid);
 		else if (name == TrainFighter)
@@ -278,9 +278,7 @@ public class Command {
 	private byte[] Select() {
 		BA ba = new BA().add(0x09).add(units.size());
 		for (Unit u : units) {
-			int fromIndex = (u.base - BW.BWDATA_UnitNodeTable)
-					/ BW.UNIT_SIZE_IN_BYTES + 1;
-			ba.add(new U16(fromIndex + (1 << 11)));
+			ba.add(new U16(u.bwId()));
 		}
 		return ba.toBA();
 	}
@@ -356,7 +354,7 @@ public class Command {
 	}
 
 	private byte[] RightClick() {
-		Object[] m = {};// TODO
+		Object[] m = { 0x14, pos, 0xe4, 0, 0 };
 		return getBytes1(m);
 	}
 
@@ -386,7 +384,7 @@ public class Command {
 	}
 
 	private byte[] TrainUnit(int unitid) {
-		Object[] m = {0x1f, new U16(unitid)};
+		Object[] m = { 0x1f, new U16(unitid) };
 		return getBytes1(m);
 	}
 
@@ -442,14 +440,15 @@ public class Command {
 		}
 		byte[] bs = cmd.getBytes();
 		Log.log("cmd=" + Arrays.toString(bs));
-		BW.command(bs, bs.length);
+		if (bs.length > 0)
+			BW.command(bs, bs.length);
 	}
 
 	public static void initQueue() {
 		cmdQueue = new ConcurrentLinkedQueue<Command>();
 	}
 
-	public static void add(Command act,List<Unit> cmdunits) {
+	public static void add(Command act, List<Unit> cmdunits) {
 		while (cmdunits.size() > 12) {
 			List<Unit> units = new ArrayList<Unit>(cmdunits.subList(0, 12));
 			cmdunits = cmdunits.subList(12, cmdunits.size());
@@ -457,8 +456,8 @@ public class Command {
 			cmdQueue.add(act);
 		}
 		if (cmdunits.size() > 0) {
-			cmdQueue.add(new Command(Name.Select,
-					new ArrayList<Unit>(cmdunits)));
+			cmdQueue
+					.add(new Command(Name.Select, new ArrayList<Unit>(cmdunits)));
 			cmdQueue.add(act);
 		}
 	}

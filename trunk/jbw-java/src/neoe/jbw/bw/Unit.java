@@ -10,11 +10,9 @@ public class Unit extends Struct {
 	public String toStr1() {
 		Unit u = this;
 		Position p = u.position();
-		return String.format("#%d@0x%s(%d/%d)%s,%d[%d](%d,%d)",
-				(base - BW.BWDATA_UnitNodeTable)
-						/ BW.UNIT_SIZE_IN_BYTES, Integer.toHexString(base), u
-						.healthPoints(), u.shieldPoints(),
-				u.unitID().getName(),u.unitID().id, u.playerID(), p.x(), p.y());
+		return String.format("#%d(%d/%d)%s,%d[%d](%d,%d)O:%d", bwId(), u
+				.healthPoints(), u.shieldPoints(), u.unitID().getName(), u
+				.unitID().id, u.playerID(), p.x(), p.y(), u.orderID());
 	}
 
 	// parsed
@@ -302,7 +300,7 @@ public class Unit extends Struct {
 
 	/** Child unit information (structure depends on unitID */
 	public IntArr loadedUnitIndex() {
-		return u16array(0x0B0, 8,0);
+		return u16array(0x0B0, 8, 0);
 	}
 
 	// TODO:union ChildInfoUnion_type
@@ -491,6 +489,31 @@ public class Unit extends Struct {
 	/** < @todo Unknown (mapsizex/1.5 max) */
 	public int driftPosY() {
 		return u8(0x14E);
+	}
+
+	/**
+	 * Representation of pointer to unit in bw structure that uses index (not
+	 * pointer). When pointer to another unit is present in bw structure, it
+	 * uses two ways to do it 1) Pointer to bw memory where is the unit stored
+	 * (in UnitNodeTable) This is used for example in Unit.next, this
+	 * representation takes 4 bytes. 2) unitIndes in the UnitNodeTable, this is
+	 * used for example in Orders, the motivation probably was to save network
+	 * data capacity, as only 2 bytes are needed to store the index. But for
+	 * some unkown reason, value there is unit index + 1 << 11 (1 in the binary
+	 * code on 11th place)
+	 * 
+	 * Not using typedef to not accidentally imlicitely assign an index value
+	 */
+	public int bwId() {
+		int fromIndex = (base - BW.BWDATA_UnitNodeTable)
+				/ BW.UNIT_SIZE_IN_BYTES + 1;
+		return fromIndex + (1 << 11);
+	}
+
+	public String toStr2() {
+		Unit u = this;
+		return String.format("#%d%s,%d[%d]O:%d", bwId(), u.unitID().getName(),
+				u.unitID().id, u.playerID(), u.orderID());
 	}
 
 }
