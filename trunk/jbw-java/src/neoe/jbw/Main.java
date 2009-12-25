@@ -2,6 +2,7 @@ package neoe.jbw;
 
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
+import neoe.jbw.client.Game;
 import neoe.jbw.cmd.Command;
 
 public class Main {

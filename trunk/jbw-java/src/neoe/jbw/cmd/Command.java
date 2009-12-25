@@ -57,8 +57,10 @@ import neoe.jbw.BW;
 import neoe.jbw.Log;
 import neoe.jbw.Pos;
 import neoe.jbw.bw.Unit;
+import neoe.jbw.bytes.BA;
 import neoe.jbw.bytes.ToBytes;
 import neoe.jbw.bytes.U16;
+import neoe.jbw.data.Order;
 
 public class Command {
 	private static Queue<Command> cmdQueue;
@@ -439,7 +441,7 @@ public class Command {
 			return;
 		}
 		byte[] bs = cmd.getBytes();
-		Log.log("cmd=" + Arrays.toString(bs));
+		//Log.log("cmd=" + Arrays.toString(bs));
 		if (bs.length > 0)
 			BW.command(bs, bs.length);
 	}

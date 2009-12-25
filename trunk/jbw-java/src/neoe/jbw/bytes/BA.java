@@ -1,8 +1,7 @@
-package neoe.jbw.cmd;
+package neoe.jbw.bytes;
 
 import java.io.ByteArrayOutputStream;
 
-import neoe.jbw.bytes.ToBytes;
 
 public class BA {
 	private ByteArrayOutputStream ba;
