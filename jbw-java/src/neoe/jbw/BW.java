@@ -82,6 +82,17 @@ public class BW {
 	// static Unit**
 	public static final int BWDATA_UnitNodeTable_FirstElement = 0x00628430;
 
+	// (DatLoad*)
+	public static final int weaponsDat = 0x00513868;
+	// (DatLoad*)
+	public static final int unitsDat = 0x00513C30;
+//	  struct DatLoad
+//	  {
+//	    u32   address;
+//	    u32   length;
+//	    u32   entries;
+//	  };
+
 	public static int u32(int offset) {
 		int v = Bytes.u32(getBytes1(offset, 4));
 		return v;

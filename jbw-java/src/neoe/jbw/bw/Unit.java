@@ -1,6 +1,7 @@
 package neoe.jbw.bw;
 
 import neoe.jbw.BW;
+import neoe.jbw.data.UnitPrototypeFlags;
 
 public class Unit extends Struct {
 	public Unit(int offset) {
@@ -10,9 +11,15 @@ public class Unit extends Struct {
 	public String toStr1() {
 		Unit u = this;
 		Position p = u.position();
-		return String.format("#%d(%d/%d)%s,%d[%d](%d,%d)O:%d", bwId(), u
-				.healthPoints(), u.shieldPoints(), u.unitID().getName(), u
-				.unitID().id, u.playerID(), p.x(), p.y(), u.orderID());
+		WeaponType gw = u.unitID().groundWeapon();
+		WeaponType aw = u.unitID().airWeapon();
+		return String.format(
+				"#%d(%d/%d/%d)<%s:%d/%d,%s:%d/%d>%s:%d[%d](%d,%d)O:%d", bwId(),
+				u.healthPoints(), u.shieldPoints(), u.energy(), gw.getName(),
+				gw.damageAmount(), gw.damageCooldown(), aw.getName(), aw
+						.damageAmount(), aw.damageCooldown(), u.unitID()
+						.getName(), u.unitID().id, u.playerID(), p.x(), p.y(),
+				u.orderID());
 	}
 
 	// parsed
@@ -188,7 +195,10 @@ public class Unit extends Struct {
 
 	/** < Bw shows this value/256 */
 	public int shieldPoints() {
-		return u32(0x060) / 256;
+		if (unitID().isShieldEnabled())
+			return u32(0x060) / 256;
+		else
+			return 0;
 	}
 
 	/** < Specifies the type of unit. */
@@ -267,7 +277,10 @@ public class Unit extends Struct {
 
 	/** < Energy Points */
 	public int energy() {
-		return u16(0x0A2);
+		if (unitID().flag(UnitPrototypeFlags.Spellcaster))
+			return u16(0x0A2)/256;
+		else
+			return 0;
 	}
 
 	/** < Index of active unit in #buildQueue. */

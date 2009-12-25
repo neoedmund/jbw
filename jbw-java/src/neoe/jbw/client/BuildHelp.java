@@ -1,13 +1,16 @@
-package neoe.jbw;
+package neoe.jbw.client;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import neoe.jbw.Log;
+import neoe.jbw.Main;
+import neoe.jbw.Utils;
 import neoe.jbw.bw.Supply;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.cmd.Command;
 import neoe.jbw.cmd.Name;
-import neoe.jbw.cmd.Order;
+import neoe.jbw.data.Order;
 import neoe.jbw.data.UnitID;
 
 /**

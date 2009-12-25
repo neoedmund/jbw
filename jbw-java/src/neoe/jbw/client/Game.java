@@ -1,5 +1,11 @@
-package neoe.jbw;
+package neoe.jbw.client;
 
+import neoe.jbw.BW;
+import neoe.jbw.Log;
+import neoe.jbw.Main;
+import neoe.jbw.Pos;
+import neoe.jbw.SelectedLog;
+import neoe.jbw.Utils;
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.cmd.Command;
@@ -65,8 +71,9 @@ public class Game {
 		if ("build".equals(text)) {
 			buildMode = !buildMode;
 			Utils.print("build helper " + (buildMode ? "enabled" : "disabled"));
+		}else if ("stat".equals(text)) {
+			new Stat().run();
 		}
-
 	}
 
 	public void onUnitDeath(Unit unit) {

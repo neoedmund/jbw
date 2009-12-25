@@ -18,19 +18,19 @@ public class Utils {
 			all.add(u);
 			u = u.nextUnit();
 		}
-		Log.log("getVisibleUnits count=" + all.size());
+		//Log.log("getVisibleUnits count=" + all.size());
 		return all;
 	}
 
 	public static List<Unit> getMyUnits() {
-		Log.log("my playerid="+Main.playerId);
+		//Log.log("my playerid="+Main.playerId);
 		List<Unit> all = new ArrayList<Unit>();
 		for (Unit u : getVisibleUnits()){
 			if (u.playerID()==Main.playerId){
 				all.add(u);
 			}
 		}
-		Log.log("getMyUnits count=" + all.size());
+		//Log.log("getMyUnits count=" + all.size());
 		return all;
 	}
 

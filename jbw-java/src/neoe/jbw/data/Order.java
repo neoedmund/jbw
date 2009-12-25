@@ -1,4 +1,4 @@
-package neoe.jbw.cmd;
+package neoe.jbw.data;
 
 public class Order {
 	public static final int Die=0;
