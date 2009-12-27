@@ -55,14 +55,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import neoe.jbw.BW;
 import neoe.jbw.Log;
+import neoe.jbw.Main;
 import neoe.jbw.Pos;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.bytes.BA;
 import neoe.jbw.bytes.ToBytes;
 import neoe.jbw.bytes.U16;
+import neoe.jbw.bytes.U32;
 import neoe.jbw.data.Order;
 
 public class Command {
+	private static final int MAXCOMPERFRAME = 12;
+
 	private static Queue<Command> cmdQueue;
 
 	private static byte[] getBytes1(Object[] m) {
@@ -89,10 +93,19 @@ public class Command {
 
 	private int unitid;
 
+	private int order;
+
 	public Command(Name name, Pos pos, int unitid) {
 		this.name = name;
 		this.pos = pos;
 		this.unitid = unitid;
+	}
+
+	public Command(Name name, Pos pos, int unitid, int order) {
+		this.name = name;
+		this.pos = pos;
+		this.unitid = unitid;
+		this.order = order;
 	}
 
 	public Command(Name name, List<Unit> units) {
@@ -101,7 +114,7 @@ public class Command {
 	}
 
 	private byte[] Attack() {
-		Object[] m = { 0x15, pos, 0xe4, 0, Order.AttackMove, 0, 0, 0, 0x00 };
+		Object[] m = { 0x15, pos, 0xe4, 0, new U32(order), 0x00 };
 		return getBytes1(m);
 	}
 
@@ -188,7 +201,7 @@ public class Command {
 		else if (name == RightClick)
 			return RightClick();
 		else if (name == TrainUnit)
-			return TrainUnit(unitid);
+			return TrainUnit();
 		else if (name == TrainFighter)
 			return TrainFighter();
 		else if (name == MakeBuilding)
@@ -385,7 +398,7 @@ public class Command {
 		return getBytes1(m);
 	}
 
-	private byte[] TrainUnit(int unitid) {
+	private byte[] TrainUnit() {
 		Object[] m = { 0x1f, new U16(unitid) };
 		return getBytes1(m);
 	}
@@ -396,7 +409,7 @@ public class Command {
 	}
 
 	private byte[] UnitMorph() {
-		Object[] m = {};// TODO
+		Object[] m = { 0x23, new U16(unitid) };
 		return getBytes1(m);
 	}
 
@@ -441,9 +454,11 @@ public class Command {
 			return;
 		}
 		byte[] bs = cmd.getBytes();
-		//Log.log("cmd=" + Arrays.toString(bs));
-		if (bs.length > 0)
+		Log.log("cmd=" + Arrays.toString(bs));
+		if (bs.length > 0) {
 			BW.command(bs, bs.length);
+			Main.waitUntil = Main.frame + bs.length;
+		}
 	}
 
 	public static void initQueue() {
@@ -451,9 +466,10 @@ public class Command {
 	}
 
 	public static void add(Command act, List<Unit> cmdunits) {
-		while (cmdunits.size() > 12) {
-			List<Unit> units = new ArrayList<Unit>(cmdunits.subList(0, 12));
-			cmdunits = cmdunits.subList(12, cmdunits.size());
+		
+		while (cmdunits.size() > MAXCOMPERFRAME) {
+			List<Unit> units = new ArrayList<Unit>(cmdunits.subList(0, MAXCOMPERFRAME));
+			cmdunits = cmdunits.subList(MAXCOMPERFRAME, cmdunits.size());
 			cmdQueue.add(new Command(Name.Select, units));
 			cmdQueue.add(act);
 		}

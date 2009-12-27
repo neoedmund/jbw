@@ -14,12 +14,12 @@ public class Unit extends Struct {
 		WeaponType gw = u.unitID().groundWeapon();
 		WeaponType aw = u.unitID().airWeapon();
 		return String.format(
-				"#%d(%d/%d/%d)<%s:%d/%d,%s:%d/%d>%s:%d[%d](%d,%d)O:%d", bwId(),
+				"#%d(%d/%d/%d)<%s:%d/%d,%s:%d/%d>%s:%d[%d](%d,%d)O:%s", bwId(),
 				u.healthPoints(), u.shieldPoints(), u.energy(), gw.getName(),
 				gw.damageAmount(), gw.damageCooldown(), aw.getName(), aw
 						.damageAmount(), aw.damageCooldown(), u.unitID()
 						.getName(), u.unitID().id, u.playerID(), p.x(), p.y(),
-				u.orderID());
+				neoe.jbw.data.Order.getName(u.orderID()));
 	}
 
 	// parsed
@@ -520,7 +520,7 @@ public class Unit extends Struct {
 	public int bwId() {
 		int fromIndex = (base - BW.BWDATA_UnitNodeTable)
 				/ BW.UNIT_SIZE_IN_BYTES + 1;
-		return fromIndex + (1 << 11);
+		return fromIndex + (targetOrderSpecial() << 11);
 	}
 
 	public String toStr2() {
