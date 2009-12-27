@@ -5,6 +5,10 @@ import neoe.jbw.Pos;
 
 public class Position extends Struct {
 
+	@Override
+	public String toString() {
+		return "("+x()+","+y()+")";
+	}
 	public int x(){return BW.u16(base);};
 	public int y(){return BW.u16(base+2);};
 

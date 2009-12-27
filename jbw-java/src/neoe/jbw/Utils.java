@@ -1,12 +1,18 @@
 package neoe.jbw;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Position;
 import neoe.jbw.bw.Unit;
+import neoe.jbw.bw.UnitType;
+import neoe.jbw.bw.WeaponType;
+import neoe.jbw.data.GroupFlag;
 import neoe.jbw.data.UnitID;
+import neoe.jbw.data.UnitPrototypeFlags;
 
 public class Utils {
 
@@ -18,24 +24,27 @@ public class Utils {
 			all.add(u);
 			u = u.nextUnit();
 		}
-		//Log.log("getVisibleUnits count=" + all.size());
+		// Log.log("getVisibleUnits count=" + all.size());
 		return all;
 	}
 
 	public static List<Unit> getMyUnits() {
-		//Log.log("my playerid="+Main.playerId);
+		// Log.log("my playerid="+Main.playerId);
 		List<Unit> all = new ArrayList<Unit>();
-		for (Unit u : getVisibleUnits()){
-			if (u.playerID()==Main.playerId){
+		for (Unit u : getVisibleUnits()) {
+			if (u.playerID() == Main.playerId) {
 				all.add(u);
 			}
 		}
-		//Log.log("getMyUnits count=" + all.size());
+		// Log.log("getMyUnits count=" + all.size());
 		return all;
 	}
 
-	/** has problem
-	 * @deprecated use getVisibleUnits */
+	/**
+	 * has problem
+	 * 
+	 * @deprecated use getVisibleUnits
+	 */
 	public static List<Unit> getAllUnits() {
 		//
 		int cnt = BW.u32(BW.BWDATA_UnitNodeTable_UsedNodeCount);
@@ -45,7 +54,7 @@ public class Utils {
 		// int pv=BW.u32(p);
 		Unit u = new Unit(p);
 		for (int i = 0; i < cnt; i++) {
-			//Log.log(u.healthPoints());
+			// Log.log(u.healthPoints());
 			all.add(u);
 			p += BW.UNIT_SIZE_IN_BYTES;
 			u = new Unit(p);
@@ -82,7 +91,7 @@ public class Utils {
 
 	public static boolean isBase(Unit u) {
 		int id = u.unitID().id;
-		if (id == UnitID.T_CommandCenter || id == UnitID.Z_Hatchery
+		if (id == UnitID.T_CommandCenter || id == UnitID.Z_Larva
 				|| id == UnitID.P_Nexus) {
 			return true;
 		}
@@ -115,5 +124,36 @@ public class Utils {
 
 	public static Player me() {
 		return Main.players[Main.playerId];
+	}
+
+	public static void printException(Exception e) {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		e.printStackTrace(new PrintStream(out, true));
+		print(out.toString());
+	}
+
+	public static List<Unit> getMyArmy() {
+		List<Unit> res = new ArrayList<Unit>();
+		for (Unit u : getMyUnits()) {
+			UnitType ut = u.unitID();
+			if (
+			// ut.groupflag(GroupFlag.Men)
+			(ut.groundWeapon().id != WeaponType.None
+					|| ut.airWeapon().id != WeaponType.None || ut
+					.flag(UnitPrototypeFlags.Spellcaster))
+					&& (ut.id != UnitID.Z_Overlord)
+					&& !ut.flag(UnitPrototypeFlags.Worker))
+				res.add(u);
+		}
+		return res;
+	}
+
+	public static List<Unit> filterOrder(List<Unit> us, int order) {
+		List<Unit> res = new ArrayList<Unit>();
+		for (Unit u : us) {
+			if (u.orderID() == order)
+				res.add(u);
+		}
+		return res;
 	}
 }

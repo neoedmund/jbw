@@ -13,13 +13,15 @@ public class UnitType extends Struct {
 		super(id);
 		this.id = id;
 	}
-	public int maxShieldPoints(){
+
+	public int maxShieldPoints() {
 		return v16(BWDATA_MaxShieldPoints);
 	}
-	public boolean isShieldEnabled(){
-		return v8(BWDATA_ShieldsEnabled)!=0;
+
+	public boolean isShieldEnabled() {
+		return v8(BWDATA_ShieldsEnabled) != 0;
 	}
-	
+
 	public String getName() {
 		if (id == BW.BW_UnitTypeIDs_None)
 			return "None";
@@ -47,10 +49,19 @@ public class UnitType extends Struct {
 	private int getFlag() {
 		return v32(BWDATA_UnitPrototypeFlags);
 	}
-	public boolean flag(int flag){
-		return (getFlag()&UnitPrototypeFlags.Flyer)!=0;
+
+	private int getGroupFlag() {
+		return v32(BWDATA_PrototypeGroupFlags);
 	}
-	
+
+	public boolean flag(int flag) {
+		return (getFlag() & flag) != 0;
+	}
+
+	public boolean groupflag(int flag) {
+		return (getGroupFlag() & flag) != 0;
+	}
+
 	public WeaponType groundWeapon() {
 		// u8 w = BW::BWDATA_UnitGroundWeapon->unitType[this->getID()];
 		// if (w == BW::WeaponID::None &&

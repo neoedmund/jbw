@@ -3,14 +3,14 @@ package neoe.jbw.bw;
 import neoe.jbw.BW;
 
 public class WeaponType {
-	private int id;
+	public int id;
 	static final int DatLoadSize = 12;
 
 	public WeaponType(int w) {
 		this.id = w;
 	}
 
-	private static final int None = 0x82;
+	public static final int None = 0x82;
 
 	public String getName() {
 		if (id == None)

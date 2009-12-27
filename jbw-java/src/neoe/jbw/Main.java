@@ -34,6 +34,7 @@ public class Main {
 	static Game game;
 	public static int playerId = -1;
 	public static Player[] players;
+	public static int waitUntil;
 
 	public static void onMatchFrame() {
 		try {
@@ -47,12 +48,15 @@ public class Main {
 				welcomeMessage();
 			}
 			frame++;
+			//if (frame<waitUntil)return;
+			//if(frame%10!=1)return;
 			if (Command.hasCommand()) {
 				Command.issueFrameCommand();
-
-			} else { 
+				return;
+			} 
+			//else { 
 				game.onFrame();
-			}
+			//}
 		} catch (Throwable e) {
 			Log.log(e.toString());
 		}

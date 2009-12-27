@@ -95,6 +95,16 @@ public class BuildHelp {
 	}
 
 	private void buildSupply() {
+		if (bases.size() > 0) {
+			for (Unit b : bases) {
+				if (b.unitID().id == UnitID.Z_Larva
+						&& b.orderID() != Order.Morph2
+						&& b.orderID() != Order.Morph1) {
+					Command.add(new Command(Name.UnitMorph, null,
+							UnitID.Z_Overlord), Utils.toList(b));
+				}
+			}
+		}
 		// TODO Auto-generated method stub
 
 	}
@@ -106,8 +116,8 @@ public class BuildHelp {
 			return;
 
 		if (bases.size() == 0) {
-			Utils.print("no base found. build-helper disabled.");
-			game.buildMode = false;
+//			Utils.print("no base found. build-helper disabled.");
+//			game.buildMode = false;
 			return;
 		} else {
 			// Log.log("find " + bases.size() + " bases");
@@ -134,7 +144,6 @@ public class BuildHelp {
 				}
 			}
 
-			Log.log("base " + base.base + " m:" + minerals + " w:" + worker);
 			if (worker < minerals * 1.6) {
 				trainWorker(base);
 			}
@@ -160,13 +169,29 @@ public class BuildHelp {
 		int wid = 0;
 		if (id == UnitID.T_CommandCenter)
 			wid = UnitID.T_SCV;
-		else if (id == UnitID.Z_Hatchery)
+		else if (id == UnitID.Z_Larva)
 			wid = UnitID.Z_Drone;
 		else if (id == UnitID.P_Nexus)
 			wid = UnitID.P_Probe;
 		else
 			return;
-		Log.log("train worker");
-		Command.add(new Command(Name.TrainUnit, null, wid), Utils.toList(u));
+
+		if (wid == UnitID.Z_Drone) {
+			if (bases.size() > 0) {
+				for (Unit b : bases) {
+					if (b.unitID().id == UnitID.Z_Larva
+							&& b.orderID() != Order.Morph2
+							&& b.orderID() != Order.Morph1) {
+						Command.add(new Command(Name.UnitMorph, null,
+								UnitID.Z_Drone), Utils.toList(b));
+					}
+				}
+			}
+		} else {
+			Log.log("train worker");
+			Command
+					.add(new Command(Name.TrainUnit, null, wid), Utils
+							.toList(u));
+		}
 	}
 }

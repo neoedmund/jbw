@@ -15,15 +15,7 @@ public class SelectedLog {
 
 	private void logSelected() {
 
-		List<Unit> selected = new ArrayList<Unit>();
-		int p = BW.BWDATA_CurrentPlayerSelectionGroup;
-		int pv = BW.u32(p);
-		while (pv != 0) {
-			Unit u = new Unit(pv);
-			selected.add(u);
-			p += 4;
-			pv = BW.u32(p);
-		}
+		List<Unit> selected = getSelected();
 		if (!Utils.sameList(selected, lastSelect)) {
 			for (Unit u : selected) {
 				Log.log("select " + u.toStr1());
@@ -39,6 +31,20 @@ public class SelectedLog {
 			}
 		}
 
+	}
+
+	public static List<Unit> getSelected() {
+		List<Unit> selected = new ArrayList<Unit>();
+		int p = BW.BWDATA_CurrentPlayerSelectionGroup;
+		int pv = BW.u32(p);
+		while (pv != 0) {
+			Unit u = new Unit(pv);
+			selected.add(u);
+			if (selected.size()>=12)break;
+			p += 4;
+			pv = BW.u32(p);
+		}
+		return selected;
 	}
 
 	String lastSelectStr = "";
