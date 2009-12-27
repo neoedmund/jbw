@@ -142,7 +142,8 @@ public class Utils {
 					|| ut.airWeapon().id != WeaponType.None || ut
 					.flag(UnitPrototypeFlags.Spellcaster))
 					&& (ut.id != UnitID.Z_Overlord)
-					&& !ut.flag(UnitPrototypeFlags.Worker))
+					&& !ut.flag(UnitPrototypeFlags.Worker)
+					&& !ut.flag(UnitPrototypeFlags.Hero))
 				res.add(u);
 		}
 		return res;

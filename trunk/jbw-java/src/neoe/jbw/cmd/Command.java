@@ -53,10 +53,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
+
 import neoe.jbw.BW;
 import neoe.jbw.Log;
 import neoe.jbw.Main;
 import neoe.jbw.Pos;
+import neoe.jbw.SelectedLog;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.bytes.BA;
 import neoe.jbw.bytes.ToBytes;
@@ -68,6 +71,8 @@ public class Command {
 	private static final int MAXCOMPERFRAME = 12;
 
 	private static Queue<Command> cmdQueue;
+
+	private static List<Unit> saveUserSelect;
 
 	private static byte[] getBytes1(Object[] m) {
 		BA ba = new BA();
@@ -454,7 +459,7 @@ public class Command {
 			return;
 		}
 		byte[] bs = cmd.getBytes();
-		Log.log("cmd=" + Arrays.toString(bs));
+		//Log.log("cmd=" + Arrays.toString(bs));
 		if (bs.length > 0) {
 			BW.command(bs, bs.length);
 			Main.waitUntil = Main.frame + bs.length;
@@ -466,7 +471,8 @@ public class Command {
 	}
 
 	public static void add(Command act, List<Unit> cmdunits) {
-		
+		if (cmdunits.size()<0)return;
+		saveUserSelect=SelectedLog.getSelected();
 		while (cmdunits.size() > MAXCOMPERFRAME) {
 			List<Unit> units = new ArrayList<Unit>(cmdunits.subList(0, MAXCOMPERFRAME));
 			cmdunits = cmdunits.subList(MAXCOMPERFRAME, cmdunits.size());
@@ -478,6 +484,9 @@ public class Command {
 					.add(new Command(Name.Select, new ArrayList<Unit>(cmdunits)));
 			cmdQueue.add(act);
 		}
+		
+		//restore use select
+		cmdQueue.add(new Command(Name.Select, saveUserSelect));
 	}
 
 }
