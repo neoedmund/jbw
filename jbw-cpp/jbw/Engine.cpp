@@ -22,7 +22,7 @@ namespace BWAPI
 		void onMatchEnd(){
 			JBW::onMatchEnd();
 		}
-		bool onSendText(const char* text){return true;}
+		bool onSendText(const char* text){return false;}
 		void onUnitDeath(BW::Unit* unit){JBW::onUnitDeath(unit);}
 		void onDllLoad(){}
 		void onMessageIntercepted(const char* text){

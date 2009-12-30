@@ -17,6 +17,12 @@ public class UnitType extends Struct {
 	public int maxShieldPoints() {
 		return v16(BWDATA_MaxShieldPoints);
 	}
+	public int mMineralPrices() {
+		return v16(BWDATA_MineralPrices);
+	}
+	public int gasPrices() {
+		return v16(BWDATA_GasPrices);
+	}
 
 	public boolean isShieldEnabled() {
 		return v8(BWDATA_ShieldsEnabled) != 0;
