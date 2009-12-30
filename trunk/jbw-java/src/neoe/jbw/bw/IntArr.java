@@ -18,7 +18,11 @@ public class IntArr {
 		this.start = start;
 		//Log.log("IntArr:"+Arrays.toString(arr)+start);
 	}
-
+	public int get(int index){
+		int p=index+start;
+		p = p%maxsize;
+		return arr[p];
+	}
 	public int size() {
 		int p = start;
 		int s = 0;

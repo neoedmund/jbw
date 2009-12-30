@@ -18,7 +18,7 @@ public class SelectedLog {
 		List<Unit> selected = getSelected();
 		if (!Utils.sameList(selected, lastSelect)) {
 			for (Unit u : selected) {
-				Log.log("select " + u.toStr1());
+				//Log.log("select " + u.toStr1());
 			}
 
 			lastSelect = selected;

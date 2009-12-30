@@ -21,9 +21,10 @@ public class Gather {
 	public void run() {
 		//if(Main.frame%10!=1)return;
 		if(order==Order.None)return;
-		List<Unit>army=Utils.getMyArmy();
+		List<Unit>army1=Utils.getMyArmy();
 		//Log.log("my army "+army.size());
-		army=Utils.filterOrder(army, Order.PlayerGuard);
+		List<Unit>army =Utils.filterOrder(army1, Order.PlayerGuard);
+		army.addAll(Utils.filterOrder(army1, Order.Medic));
 		//Log.log("my idle army "+army.size());
 		army.removeAll(done);
 		if (army.size()>0){

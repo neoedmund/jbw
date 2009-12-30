@@ -19,7 +19,9 @@ public class Game {
 	boolean buildMode = true;
 	BuildHelp buildHelp;
 	SelectedLog selectedLog;
-	private boolean logSelect=true;
+	private boolean logSelect;
+	private boolean trainMode=true;
+	private TrainHelp trainHelp;
 	public void onFrame() {
 		if (logSelect)
 		selectedLog.run();
@@ -33,6 +35,9 @@ public class Game {
 		gather.run();
 		if (buildMode ) {
 			buildHelp.run();
+		}
+		if(trainMode){
+			trainHelp.run();
 		}
 	}
 
@@ -69,6 +74,7 @@ public class Game {
 		buildHelp=new BuildHelp(this);
 		selectedLog=new SelectedLog();
 		gather=new Gather();
+		trainHelp=new TrainHelp();
 	}
 
 	Gather gather;
@@ -82,6 +88,9 @@ public class Game {
 		}else if ("log".equals(text)) {
 			logSelect=!logSelect;
 			Utils.print("select log " + (logSelect ? "enabled" : "disabled"));
+		}else if ("t".equals(text)) {
+			trainMode=!trainMode;
+			Utils.print("train helper " + (trainMode ? "enabled" : "disabled"));
 		}else if ("m".equals(text)) {
 			java.util.List<Unit>ss=SelectedLog.getSelected();
 			if(ss.size()>0){
