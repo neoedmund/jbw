@@ -5,7 +5,7 @@ extern "C"
 JNIEXPORT void JNICALL 
 Java_neoe_jbw_Main_cprint1(JNIEnv *env, jobject obj)
 {
-	FILE *f = fopen("t:\\cprint1.txt","at");
+	FILE *f = fopen("g:\\cprint1.txt","at");
 	fprintf(f, "hello jbw \n");
 	fclose(f);
 	return;
@@ -35,7 +35,7 @@ extern "C"
 JNIEXPORT jobject JNICALL 
 Java_neoe_jbw_BW_getBB(JNIEnv *env, jobject obj)
 {
-	return env->NewDirectByteBuffer((void*)0x400000, 0x5300000);
+	return env->NewDirectByteBuffer((void*)0x400000, 0x6300000);
 }
 //native void print(int id, String s);
 extern "C"

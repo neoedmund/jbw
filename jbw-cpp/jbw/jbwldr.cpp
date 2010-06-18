@@ -23,7 +23,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 	case DLL_PROCESS_ATTACH:
 		{
 			delete Util::Logger::globalLog;			
-			Util::Logger::globalLog = new Util::FileLogger("t:\\jbwldr", Util::LogLevel::MicroDetailed);
+			Util::Logger::globalLog = new Util::FileLogger("g:\\jbwldr", Util::LogLevel::MicroDetailed);
 			Util::Logger::globalLog->log("jbw init started");
 			loadJVMDll();
 			BW::installHooks();
@@ -67,7 +67,7 @@ typedef jint (JNICALL CreateJavaVM_t)(JavaVM **pvm, void **penv, void *args);
 
 void loadJVMDll(){
 	if (_libInst!=NULL)return;
-	std::string jvmdll = getenv("JAVA_HOME");
+	std::string jvmdll = "C:\\Program Files (x86)\\Java\\jdk1.6.0_18";//getenv("JAVA_HOME");
 	Util::Logger::globalLog->log("java home=%s", jvmdll.c_str());
 	if (file_exists((jvmdll + "\\bin\\client\\jvm.dll").c_str())) {
 		jvmdll += "\\bin\\client\\jvm.dll";
@@ -120,7 +120,7 @@ void JBW::createJVM(){
 	options[0].optionString =(char *)s1.c_str();
 	//where jni native impl dll is in (jbwnative.dll)
 	options[1].optionString =(char *)s2.c_str();
-	options[2].optionString ="-Xmx256M";
+	options[2].optionString ="-Xmx512M";
 	JavaVMInitArgs vm_args;
 	vm_args.version = JNI_VERSION_1_6;
 	vm_args.options = options;

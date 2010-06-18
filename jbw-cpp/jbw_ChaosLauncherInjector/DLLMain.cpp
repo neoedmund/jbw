@@ -40,7 +40,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
   
   strcpy(name, "jbw (1.16.1)");
   strcpy(description, newDescription);
-  strcpy(updateurl, "http://neoe.appspot.com");
+  strcpy(updateurl, "http://code.google.com/p/jbw");
 }
 
 // Functions called by BWLauncher

@@ -1,6 +1,7 @@
 package neoe.jbw.client;
 
 import neoe.jbw.BW;
+import neoe.jbw.IGame;
 import neoe.jbw.Log;
 import neoe.jbw.Main;
 import neoe.jbw.PosUnit;
@@ -13,7 +14,7 @@ import neoe.jbw.cmd.Command;
 import neoe.jbw.cmd.Name;
 import neoe.jbw.data.Order;
 
-public class Game {
+public class Game implements IGame {
 
 	private Player me;
 	private int st;
@@ -58,7 +59,7 @@ public class Game {
 		warStat = new WarStat();
 		selectedLog = new SelectedLog();
 		if (Main.isReplay) {// replay
-			BW.print1(8,"replay start ");
+			BW.print1(8, "replay start ");
 			return;
 		} else {
 			Log.log("game start ");
@@ -126,10 +127,10 @@ public class Game {
 
 	public void onUnitDeath(Unit unit) {
 		// Log.log("[DEAD]" + unit.toStr1());
-		//if (Main.isReplay) {// replay
-			warStat.onUnitDeath(unit);
-		//	return;
-		//}
+		// if (Main.isReplay) {// replay
+		warStat.onUnitDeath(unit);
+		// return;
+		// }
 	}
 
 	public void onNuclearLaunchDetected(Position targetPos) {

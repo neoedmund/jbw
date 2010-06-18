@@ -82,16 +82,16 @@ public class Utils {
 				t = "(me)";
 				playId = i;
 			}
-			Log.log(Main.players[i].toStr()+t);
+			Log.log(Main.players[i].toStr() + t);
 		}
-		StringBuffer sb=new StringBuffer();
-		for (int i = 0; i < BW.PLAYABLE_PLAYER_COUNT; i++) {			
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < BW.PLAYABLE_PLAYER_COUNT; i++) {
 			for (int j = 0; j < BW.PLAYABLE_PLAYER_COUNT; j++) {
-				sb.append(" "+Utils.alliance(i,j));
+				sb.append(" " + Utils.alliance(i, j));
 			}
 			sb.append("\r\n");
 		}
-		Log.log("\r\n"+sb);
+		Log.log("\r\n" + sb);
 		return playId;
 	}
 
@@ -163,12 +163,28 @@ public class Utils {
 		}
 		return res;
 	}
+
 	public static int alliance(int pid1, int pid2) {
 		return BW.u8(BW.BWDATA_Alliance + (pid1 * BW.PLAYER_COUNT) + pid2);
 	}
+
 	public static boolean isEnemy(int pid1, int pid2) {
-		if (pid1==pid2)return false;
-		return alliance(pid1,pid2) == 0;
+		if (pid1 == pid2)
+			return false;
+		return alliance(pid1, pid2) == 0;
+	}
+
+	public static List<Unit> getVisibleEnemies() {
+		int pv = BW.u32(BW.BWDATA_UnitNodeChain_VisibleUnit_First);
+		Unit u = new Unit(pv);
+		List<Unit> all = new ArrayList<Unit>();
+		while (u.base != 0) {
+			if (isEnemy(Main.playerId, u.playerID())) {
+				all.add(u);
+			}
+			u = u.nextUnit();
+		}
+		return all;
 	}
 
 }
