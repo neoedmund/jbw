@@ -118,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Java\jdk1.6.0_17\include&quot;;&quot;C:\Program Files\Java\jdk1.6.0_17\include\win32&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\Java\jdk1.6.0_18\include&quot;;&quot;C:\Program Files (x86)\Java\jdk1.6.0_18\include\win32&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;JBW_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;C:\Program Files\Java\jdk1.6.0_17\lib\jvm.lib&quot;"
+				AdditionalDependencies="&quot;C:\Program Files (x86)\Java\jdk1.6.0_18\lib\jvm.lib&quot;"
 				OutputFile="$(ChaosDir)\jbw.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"

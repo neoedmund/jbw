@@ -3,6 +3,7 @@ package neoe.jbw;
 import java.util.HashSet;
 import java.util.Set;
 
+import neoe.jbw.ai.AiZerg01;
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.client.Game;
@@ -35,7 +36,7 @@ public class Main {
 		game.onUnitDeath(new Unit(unitp));
 	}
 
-	static Game game;
+	static IGame game;
 	public static int playerId = -1;
 	public static Player[] players;
 	public static int waitUntil;
@@ -79,7 +80,7 @@ public class Main {
 					game.onNuclearLaunchDetected(u.orderTargetPos());
 				}
 				if (u.orderID() != lastOrder) {
-					Log.log("[nuke]"+u.toStr1());
+					Log.log("[nuke]" + u.toStr1());
 					lastOrder = u.orderID();
 				}
 			}
@@ -107,11 +108,17 @@ public class Main {
 		for (int i = 0; i < BW.PLAYER_COUNT; i++) {
 			players[i] = new Player(i);
 		}
-		isReplay=BW.u32(BW.BWDATA_InReplay)!=0;
+		isReplay = BW.u32(BW.BWDATA_InReplay) != 0;
 		playerId = Utils.getPlayId();
 		Command.initQueue();
-		game = new Game();
-		game.start();
+		String mapName = BW.getStr(BW.BWDATA_CurrentMapFileName);
+		if (mapName.equals("campaign\\zerg\\zerg01")) {
+			game = new AiZerg01();
+			game.start();
+		} else {
+			game = new Game();
+			game.start();
+		}
 	}
 
 	public static void main(String[] args) {
