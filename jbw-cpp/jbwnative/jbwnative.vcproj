@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\Java\jdk1.6.0_18\include&quot;;&quot;C:\Program Files (x86)\Java\jdk1.6.0_18\include\win32&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"

@@ -1,0 +1,40 @@
+package neoe.jbw.data;
+
+public class AttackTypeID {
+	 public static final int    Melee=0;
+	 public static final int    Fusion_Cutter_Hit=141;
+	 public static final int    Gauss_Rifle_Hit=142;
+	 public static final int    C_10_Canister_Rifle_Hit=143;
+	 public static final int    Gemini_Missiles=144;
+	 public static final int    Fragmentation_Grenade=145;
+	 public static final int    Longbolt_Missile=146;
+	 public static final int    ATS_ATA_Laser_Battery=148;
+	 public static final int    Burst_Lasers=149;
+	 public static final int    Arclite_Shock_Cannon_Hit=150;
+	 public static final int    EMP_Missile=151;
+	 public static final int    Dual_Photon_Blasters_Hit=152;
+	 public static final int    Particle_Beam_Hit=153;
+	 public static final int    Anti_Matter_Missile=154;
+	 public static final int    Pulse_Cannon=155;
+	 public static final int    Psionic_Shockwave_Hit=156;
+	 public static final int    Psionic_Storm=157;
+	 public static final int    Yamato_Gun=158;
+	 public static final int    Phase_Disruptor=159;
+	 public static final int    STA_STS_Cannon_Overlay=160;
+	 public static final int    Sunken_Colony_Tentacle=161;
+	 public static final int    Acid_Spore=163;
+	 public static final int    Glave_Wurm=165;
+	 public static final int    Seeker_Spores=166;
+	 public static final int    Queen_Spell_Carrier=167;
+	 public static final int    Plague_Cloud=168;
+	 public static final int    Consume=169;
+	 public static final int    Needle_Spine_Hit=171;
+	 public static final int    Invisible=172;                 
+	 public static final int    Optical_Flare_Grenade=201;
+	 public static final int    Halo_Rockets=202;
+	 public static final int    Subterranean_Spines=203;
+	 public static final int    Corrosive_Acid_Shot=204;
+	 public static final int    Neutron_Flare=206;
+	 public static final int    None=209;
+	 public static final int    Unknown=210;
+}

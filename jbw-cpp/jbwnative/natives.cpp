@@ -30,7 +30,13 @@ Java_neoe_jbw_BW_getBytes(JNIEnv *env, jobject obj, jint offset, jint size)
 	env->SetByteArrayRegion(ba,0,size,(jbyte*)offset);
 	return ba;
 }
-
+//native ByteBuffer getBB();
+extern "C"
+JNIEXPORT jobject JNICALL 
+Java_neoe_jbw_BW_getBB(JNIEnv *env, jobject obj)
+{
+	return env->NewDirectByteBuffer((void*)0x400000, 0x5300000);
+}
 //native void print(int id, String s);
 extern "C"
 JNIEXPORT void JNICALL 

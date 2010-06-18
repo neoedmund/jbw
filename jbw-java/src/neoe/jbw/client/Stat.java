@@ -1,6 +1,9 @@
 package neoe.jbw.client;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import neoe.jbw.Main;
@@ -35,10 +38,14 @@ public class Stat {
 		public double aa;
 
 	}
-
 	public void run() {
+		Utils.print(run1(Utils.getVisibleUnits()));
+	}
+	public String run1(List<Unit> targets) {
+		ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream(out1, true);
 		Map<Integer, P> m = new HashMap<Integer, P>();
-		for (Unit u : Utils.getVisibleUnits()) {
+		for (Unit u : targets) {
 			int pid = u.playerID();
 			P p = m.get(pid);
 			if (p == null) {
@@ -69,13 +76,13 @@ public class Stat {
 			}
 			// }
 		}
-		Utils.print("stat for " + m.size() + " players");
+		out.println("stat for " + m.size() + " players");
 		for (Integer pid : m.keySet()) {
 			Player p = Main.players[pid.intValue()];
 			P i = m.get(pid);
-			Utils.print(i.toString() + "(" + p.name() + ")");
+			out.println(i.toString() + "(" + p.toStr() + ")");
 		}
-
+		return out1.toString();
 	}
 
 }

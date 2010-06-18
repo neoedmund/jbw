@@ -1,13 +1,17 @@
 package neoe.jbw;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.client.Game;
 import neoe.jbw.cmd.Command;
+import neoe.jbw.data.UnitID;
 
 public class Main {
 
-	//private static final String UTF8 = "utf8";
+	// private static final String UTF8 = "utf8";
 	public static int frame;
 
 	public static void initJVM() {
@@ -48,29 +52,48 @@ public class Main {
 				welcomeMessage();
 			}
 			frame++;
-			//if (frame<waitUntil)return;
-			//if(frame%10!=1)return;
+
+			checkNuclear();
+
 			if (Command.hasCommand()) {
 				Command.issueFrameCommand();
 				return;
-			} 
-			//else { 
-				game.onFrame();
-			//}
+			}
+			// else {
+			game.onFrame();
+			// }
 		} catch (Throwable e) {
-			Log.log(e.toString());
+			Log.log(e);
 		}
+	}
+
+	private static Set<Unit> nukes = new HashSet<Unit>();
+	static int lastOrder = -1;
+	public static boolean isReplay;
+
+	private static void checkNuclear() {
+		for (Unit u : Utils.getVisibleUnits())
+			if (u.unitID().id == UnitID.T_NuclearMissile) {
+				if (!nukes.contains(u)) {
+					nukes.add(u);
+					game.onNuclearLaunchDetected(u.orderTargetPos());
+				}
+				if (u.orderID() != lastOrder) {
+					Log.log("[nuke]"+u.toStr1());
+					lastOrder = u.orderID();
+				}
+			}
 	}
 
 	private static void welcomeMessage() {
 		new Thread() {
 			public void run() {
 				try {
-					BW.print(-1, "enjoy");
+					BW.print1(-1, "enjoy");
 					Thread.sleep(3500);
-					BW.print(-1, "=== jbw ===");
+					BW.print1(-1, "=== jbw ===");
 					Thread.sleep(3500);
-					BW.print(-1, "by neoedmund 2009");
+					BW.print1(-1, "by neoedmund 2009");
 				} catch (Exception e) {
 					Log.log(e);
 				}
@@ -84,6 +107,7 @@ public class Main {
 		for (int i = 0; i < BW.PLAYER_COUNT; i++) {
 			players[i] = new Player(i);
 		}
+		isReplay=BW.u32(BW.BWDATA_InReplay)!=0;
 		playerId = Utils.getPlayId();
 		Command.initQueue();
 		game = new Game();

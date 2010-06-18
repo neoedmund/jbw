@@ -466,7 +466,7 @@ public class Unit extends Struct {
 
 	/** < @todo Verify */
 	public byte[] acidSporeTime() {
-		return u8array(0x126, 9);
+		return null;// u8array(0x126, 9);
 	}
 
 	/** < @todo Unknown */
