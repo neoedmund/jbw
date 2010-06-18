@@ -172,4 +172,8 @@ public class WeaponType {
 	// weaponsDat_u8_type*
 	private static final int BWDATA_WeaponYOffset = 21;
 
+	public String toStr() {
+		return String.format("weapon[%s,%s,%s]", getName(),damageAmount(),maxRange() );
+	}
+
 }

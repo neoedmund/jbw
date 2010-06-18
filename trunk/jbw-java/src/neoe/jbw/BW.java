@@ -1,9 +1,22 @@
 package neoe.jbw;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BW {
+	//(u32*)
+	public static final int   BWDATA_InReplay   =   0x006D0F14;
+	// (PlayerAlliance*)
+	public static final int BWDATA_Alliance = 0x0058D634; // 1.16.1
+	// (AttackType**)
+	public static final int BWDATA_AttackNodeTable_FirstElement = 0x64DEAC;
+	// (AttackType**)
+	public static final int BWDATA_AttackNodeTable_LastElement = 0x64DEC4;
+	// (u8*)
+	public static final int BWDATA_gameType = 0x00596820; // 1.16.1
+
 	// (Players*)
 	public static final int BWDATA_Players = 0x0057EEE0; // 1.16.1
 	// (Supplies*)
@@ -37,7 +50,16 @@ public class BW {
 
 	private static native byte[] getBytes(int offset, int size);
 
-	public static byte[] getBytes1(int offset, int size) {
+	private static native ByteBuffer getBB();
+
+	public static final ByteBuffer BB = getBB().order(ByteOrder.LITTLE_ENDIAN);
+	private final static int BASE = 0x400000;
+
+	/**
+	 * @deprecated
+	 */
+	public static byte[] getBytes2(int offset, int size) {
+
 		if (cacheFrame != Main.frame) {
 			cacheFrame = Main.frame;
 			cache.clear();
@@ -45,6 +67,7 @@ public class BW {
 		String key = offset + ":" + size;
 		byte[] bs = cache.get(key);
 		if (bs == null) {
+			Log.log(key);
 			bs = getBytes(offset, size);
 			cache.put(key, bs);
 		}
@@ -56,13 +79,14 @@ public class BW {
 
 	public static native String getStr(int offset);
 
-	public static native void print(int id, String s);
+	private static native void print(int id, String s);
+
+	public static void print1(int id, String s) {
+		Log.log("[" + id + "]" + s);
+		print(id, s);
+	}
 
 	public static native void command(byte[] combytes, int byteslen);
-
-	public static int u16(int offset) {
-		return Bytes.u16(getBytes1(offset, 2));
-	}
 
 	// static Unit**
 	// Haven't found the right offset yet. Should point to the first unit of the
@@ -86,20 +110,49 @@ public class BW {
 	public static final int weaponsDat = 0x00513868;
 	// (DatLoad*)
 	public static final int unitsDat = 0x00513C30;
-//	  struct DatLoad
-//	  {
-//	    u32   address;
-//	    u32   length;
-//	    u32   entries;
-//	  };
 
-	public static int u32(int offset) {
-		int v = Bytes.u32(getBytes1(offset, 4));
-		return v;
+	// struct DatLoad
+	// {
+	// u32 address;
+	// u32 length;
+	// u32 entries;
+	// };
+
+	public static synchronized int u32(int offset) {
+		position(offset);
+		byte bs0 = BB.get();
+		byte bs1 = BB.get();
+		byte bs2 = BB.get();
+		byte bs3 = BB.get();
+		return Bytes.u8(bs3) << 24 | Bytes.u8(bs2) << 16 | 
+		Bytes.u8(bs1) << 8 | Bytes.u8(bs0);
+		//return BB.getInt();
+		// int v = Bytes.u32(getBytes1(offset, 4));
+		// return v;
 	}
 
-	public static int u8(int offset) {
-		return Bytes.u8(getBytes1(offset, 1)[0]);
+	public static synchronized int u8(int offset) {
+		position(offset);
+		return Bytes.u8(BB.get());
+		// return Bytes.u8(getBytes1(offset, 1)[0]);
+	}
+
+	public static synchronized int u16(int offset) {
+		position(offset);
+		byte b1 = BB.get();
+		byte b2 = BB.get();
+		return Bytes.u8(b1) | Bytes.u8(b2) << 8;
+		// return BB.getChar();
+		// return Bytes.u16(getBytes1(offset, 2));
+	}
+
+	private static void position(int offset) {
+		try {
+			BB.position(offset - BASE);
+		} catch (Exception e) {
+			Log.log("bad position " + Integer.toHexString(offset) + " E:" + e);
+			print(-1,"bad position " + Integer.toHexString(offset));
+		}
 	}
 
 }

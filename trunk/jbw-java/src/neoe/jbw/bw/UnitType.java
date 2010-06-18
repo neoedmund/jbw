@@ -2,7 +2,6 @@ package neoe.jbw.bw;
 
 import neoe.jbw.BW;
 import neoe.jbw.data.UnitID;
-import neoe.jbw.data.UnitPrototypeFlags;
 
 public class UnitType extends Struct {
 
@@ -27,7 +26,9 @@ public class UnitType extends Struct {
 	public boolean isShieldEnabled() {
 		return v8(BWDATA_ShieldsEnabled) != 0;
 	}
-
+	public int seekRange(){
+		return v8(BWDATA_UnitSeekRange);
+	}
 	public String getName() {
 		if (id == BW.BW_UnitTypeIDs_None)
 			return "None";

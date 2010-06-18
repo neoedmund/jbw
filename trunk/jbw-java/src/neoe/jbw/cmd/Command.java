@@ -48,24 +48,21 @@ import static neoe.jbw.cmd.Name.UseCheat;
 import static neoe.jbw.cmd.Name.UseStimPack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 import neoe.jbw.BW;
 import neoe.jbw.Log;
 import neoe.jbw.Main;
 import neoe.jbw.Pos;
+import neoe.jbw.PosUnit;
 import neoe.jbw.SelectedLog;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.bytes.BA;
 import neoe.jbw.bytes.ToBytes;
 import neoe.jbw.bytes.U16;
 import neoe.jbw.bytes.U32;
-import neoe.jbw.data.Order;
 
 public class Command {
 	private static final int MAXCOMPERFRAME = 12;
@@ -79,11 +76,15 @@ public class Command {
 		for (Object o : m) {
 			if (o instanceof ToBytes)
 				ba.add((ToBytes) o);
-			else if (o instanceof Pos) {
-				Pos p = (Pos) o;
+			else if (o instanceof PosUnit) {
+				PosUnit p = (PosUnit) o;
 				ba.add(new U16(p.x));
 				ba.add(new U16(p.y));
 				ba.add(new U16(p.uid));
+			}else if (o instanceof Pos) {
+				Pos p = (Pos) o;
+				ba.add(new U16(p.x));
+				ba.add(new U16(p.y));
 			} else
 				ba.add((Integer) o);
 		}
@@ -92,7 +93,7 @@ public class Command {
 
 	Name name;
 
-	Pos pos;
+	PosUnit pos;
 
 	public List<Unit> units;
 
@@ -100,13 +101,13 @@ public class Command {
 
 	private int order;
 
-	public Command(Name name, Pos pos, int unitid) {
+	public Command(Name name, PosUnit pos, int unitid) {
 		this.name = name;
 		this.pos = pos;
 		this.unitid = unitid;
 	}
 
-	public Command(Name name, Pos pos, int unitid, int order) {
+	public Command(Name name, PosUnit pos, int unitid, int order) {
 		this.name = name;
 		this.pos = pos;
 		this.unitid = unitid;
@@ -349,12 +350,12 @@ public class Command {
 	}
 
 	private byte[] MinimapPing() {
-		Object[] m = {};// TODO
+		Object[] m = {0x58, new Pos(pos.x,pos.y)};
 		return getBytes1(m);
 	}
 
 	private byte[] PauseGame() {
-		Object[] m = {};// TODO
+		Object[] m = {0x10};
 		return getBytes1(m);
 	}
 
@@ -364,7 +365,7 @@ public class Command {
 	}
 
 	private byte[] ResumeGame() {
-		Object[] m = {};// TODO
+		Object[] m = {0x11};
 		return getBytes1(m);
 	}
 
@@ -471,6 +472,11 @@ public class Command {
 	}
 
 	public static void add(Command act, List<Unit> cmdunits) {
+		if (Main.isReplay && act.name!=Name.MinimapPing)return;
+		if(cmdunits==null){
+			cmdQueue.add(act);
+			return;
+		}
 		if (cmdunits.size()<0)return;
 		saveUserSelect=SelectedLog.getSelected();
 		while (cmdunits.size() > MAXCOMPERFRAME) {

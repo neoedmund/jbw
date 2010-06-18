@@ -10,7 +10,6 @@ import neoe.jbw.bw.Position;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.bw.UnitType;
 import neoe.jbw.bw.WeaponType;
-import neoe.jbw.data.GroupFlag;
 import neoe.jbw.data.UnitID;
 import neoe.jbw.data.UnitPrototypeFlags;
 
@@ -78,14 +77,21 @@ public class Utils {
 		Log.log(playName);
 		int playId = -1;
 		for (int i = 0; i < BW.PLAYABLE_PLAYER_COUNT; i++) {
-			String s;
-			String t = "Player" + i + ":" + (s = Main.players[i].name());
-			if (s.equals(playName)) {
-				t = t + "(me)";
+			String t = "";
+			if (Main.players[i].name().equals(playName)) {
+				t = "(me)";
 				playId = i;
 			}
-			Log.log(t);
+			Log.log(Main.players[i].toStr()+t);
 		}
+		StringBuffer sb=new StringBuffer();
+		for (int i = 0; i < BW.PLAYABLE_PLAYER_COUNT; i++) {			
+			for (int j = 0; j < BW.PLAYABLE_PLAYER_COUNT; j++) {
+				sb.append(" "+Utils.alliance(i,j));
+			}
+			sb.append("\r\n");
+		}
+		Log.log("\r\n"+sb);
 		return playId;
 	}
 
@@ -101,7 +107,7 @@ public class Utils {
 
 	public static void print(String s) {
 		Log.log("[M]" + s);
-		BW.print(Main.playerId, s);
+		BW.print1(Main.playerId, s);
 	}
 
 	public static double getDistance(Unit u1, Unit u2) {
@@ -157,4 +163,12 @@ public class Utils {
 		}
 		return res;
 	}
+	public static int alliance(int pid1, int pid2) {
+		return BW.u8(BW.BWDATA_Alliance + (pid1 * BW.PLAYER_COUNT) + pid2);
+	}
+	public static boolean isEnemy(int pid1, int pid2) {
+		if (pid1==pid2)return false;
+		return alliance(pid1,pid2) == 0;
+	}
+
 }

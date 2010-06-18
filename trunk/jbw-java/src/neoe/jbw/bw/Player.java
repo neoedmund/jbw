@@ -55,4 +55,7 @@ public class Player extends Struct {
 	public String name() {
 		return BW.getStr(BW.BWDATA_Players + PlayerInfoLen * id + 11);
 	}
+	public String toStr(){
+		return String.format("[%s,%s,%s,%s,%s]",name(),xid(),force(),race(),type());
+	}
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import neoe.jbw.bw.Unit;
+import neoe.jbw.cmd.Command;
+import neoe.jbw.cmd.Name;
 
 public class SelectedLog {
 	List<Unit> lastSelect = new ArrayList<Unit>();
@@ -26,8 +28,9 @@ public class SelectedLog {
 		if (selected.size() > 0) {
 			String s = "selected " + selected.get(0).toStr2();
 			if (!lastSelectStr.equals(s)) {
-				BW.print(8, selected.get(0).toStr1());
+				BW.print1(8, selected.get(0).toStr1());
 				lastSelectStr = s;
+				//Command.add(new Command(Name.MinimapPing, selected.get(0).position().toPos(null), 0), null);
 			}
 		}
 
