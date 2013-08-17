@@ -13,6 +13,7 @@ import neoe.jbw.bw.Unit;
 import neoe.jbw.cmd.Command;
 import neoe.jbw.cmd.Name;
 import neoe.jbw.data.AttackTypeID;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.UnitPrototypeFlags;
 
 public class WarStat {
@@ -23,7 +24,7 @@ public class WarStat {
 	public void run() {
 		if (Main.frame % 20 != 1)
 			return;
-		int first = BW.u32(BW.BWDATA_AttackNodeTable_FirstElement);
+		int first = BW.u32(Offset.BWDATA_AttackNodeTable_FirstElement);
 		int atc = 0;
 		AttackType at1 = null;
 		if (first != 0) {

@@ -1,6 +1,7 @@
 package neoe.jbw.bw;
 
 import neoe.jbw.BW;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.UnitID;
 
 public class UnitType extends Struct {
@@ -30,27 +31,27 @@ public class UnitType extends Struct {
 		return v8(BWDATA_UnitSeekRange);
 	}
 	public String getName() {
-		if (id == BW.BW_UnitTypeIDs_None)
+		if (id == Offset.BW_UnitTypeIDs_None)
 			return "None";
-		else if (id < BW.UNIT_TYPE_COUNT) {
+		else if (id < Offset.UNIT_TYPE_COUNT) {
 			// (char*)(*((u16*)(*(u32*)BW::BWDATA_StringTableOff +
 			// this->getID() * 2 + 2)) + *((u32*)BW::BWDATA_StringTableOff));
-			int pv = BW.u32(BW.BWDATA_StringTableOff);
+			int pv = BW.u32(Offset.BWDATA_StringTableOff);
 			return BW.getStr(BW.u16(pv + id * 2 + 2) + pv);
 		} else
 			return "Invalid";
 	}
 
 	private int v16(int field) {
-		return BW.u16(BW.u32(BW.unitsDat + DatLoadSize * field) + id * 2);
+		return BW.u16(BW.u32(Offset.unitsDat + DatLoadSize * field) + id * 2);
 	}
 
 	private int v8(int field) {
-		return BW.u8(BW.u32(BW.unitsDat + DatLoadSize * field) + id);
+		return BW.u8(BW.u32(Offset.unitsDat + DatLoadSize * field) + id);
 	}
 
 	private int v32(int field) {
-		return BW.u32(BW.u32(BW.unitsDat + DatLoadSize * field) + id * 4);
+		return BW.u32(BW.u32(Offset.unitsDat + DatLoadSize * field) + id * 4);
 	}
 
 	private int getFlag() {
@@ -80,11 +81,11 @@ public class UnitType extends Struct {
 		// }
 		int DatLoadSize = 12;
 		int Ground = 17;
-		int w = BW.u8(BW.u32(BW.unitsDat + DatLoadSize * Ground) + id);
+		int w = BW.u8(BW.u32(Offset.unitsDat + DatLoadSize * Ground) + id);
 		if (w == 0x82/* None */) {
-			int su1 = BW.u16(BW.u32(BW.unitsDat + DatLoadSize * 1) + id * 2);
+			int su1 = BW.u16(BW.u32(Offset.unitsDat + DatLoadSize * 1) + id * 2);
 			if (su1 != UnitID.None) {
-				w = BW.u8(BW.u32(BW.unitsDat + DatLoadSize * Ground) + su1);
+				w = BW.u8(BW.u32(Offset.unitsDat + DatLoadSize * Ground) + su1);
 			}
 		}
 		return new WeaponType(w);
@@ -102,12 +103,12 @@ public class UnitType extends Struct {
 		int DatLoadSize = 12;
 		int Air = 19;
 		int SubUnit1 = 1;
-		int w = BW.u8(BW.u32(BW.unitsDat + DatLoadSize * Air) + id);
+		int w = BW.u8(BW.u32(Offset.unitsDat + DatLoadSize * Air) + id);
 		if (w == 0x82/* None */) {
-			int su1 = BW.u16(BW.u32(BW.unitsDat + DatLoadSize * SubUnit1) + id
+			int su1 = BW.u16(BW.u32(Offset.unitsDat + DatLoadSize * SubUnit1) + id
 					* 2);
 			if (su1 != UnitID.None) {
-				w = BW.u8(BW.u32(BW.unitsDat + DatLoadSize * Air) + su1);
+				w = BW.u8(BW.u32(Offset.unitsDat + DatLoadSize * Air) + su1);
 			}
 		}
 		return new WeaponType(w);

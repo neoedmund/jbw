@@ -8,6 +8,7 @@ import neoe.jbw.bw.Player;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.client.Game;
 import neoe.jbw.cmd.Command;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.UnitID;
 
 public class Main {
@@ -46,8 +47,8 @@ public class Main {
 			if (frame == 0) {
 				Log.log("onMatchFrame");
 
-				Log.log(BW.getStr(BW.BWDATA_CurrentMapFileName));
-				Log.log(BW.getStr(BW.BWDATA_CurrentMapName));
+				Log.log(BW.getStr(Offset.BWDATA_CurrentMapFileName));
+				Log.log(BW.getStr(Offset.BWDATA_CurrentMapName));
 
 				initGame();
 				welcomeMessage();
@@ -104,14 +105,14 @@ public class Main {
 	}
 
 	private static void initGame() {
-		players = new Player[BW.PLAYER_COUNT];
-		for (int i = 0; i < BW.PLAYER_COUNT; i++) {
+		players = new Player[Offset.PLAYER_COUNT];
+		for (int i = 0; i < Offset.PLAYER_COUNT; i++) {
 			players[i] = new Player(i);
 		}
-		isReplay = BW.u32(BW.BWDATA_InReplay) != 0;
+		isReplay = BW.u32(Offset.BWDATA_InReplay) != 0;
 		playerId = Utils.getPlayId();
 		Command.initQueue();
-		String mapName = BW.getStr(BW.BWDATA_CurrentMapFileName);
+		String mapName = BW.getStr(Offset.BWDATA_CurrentMapFileName);
 		if (mapName.equals("campaign\\zerg\\zerg01")) {
 			game = new AiZerg01();
 			game.start();

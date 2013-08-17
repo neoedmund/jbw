@@ -10,13 +10,14 @@ import neoe.jbw.bw.Position;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.bw.UnitType;
 import neoe.jbw.bw.WeaponType;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.UnitID;
 import neoe.jbw.data.UnitPrototypeFlags;
 
 public class Utils {
 
 	public static List<Unit> getVisibleUnits() {
-		int pv = BW.u32(BW.BWDATA_UnitNodeChain_VisibleUnit_First);
+		int pv = BW.u32(Offset.BWDATA_UnitNodeChain_VisibleUnit_First);
 		Unit u = new Unit(pv);
 		List<Unit> all = new ArrayList<Unit>();
 		while (u.base != 0) {
@@ -46,16 +47,16 @@ public class Utils {
 	 */
 	public static List<Unit> getAllUnits() {
 		//
-		int cnt = BW.u32(BW.BWDATA_UnitNodeTable_UsedNodeCount);
+		int cnt = BW.u32(Offset.BWDATA_UnitNodeTable_UsedNodeCount);
 		Log.log("unit cnt " + cnt);
 		List<Unit> all = new ArrayList<Unit>();
-		int p = BW.BWDATA_UnitNodeTable;
+		int p = Offset.BWDATA_UnitNodeTable;
 		// int pv=BW.u32(p);
 		Unit u = new Unit(p);
 		for (int i = 0; i < cnt; i++) {
 			// Log.log(u.healthPoints());
 			all.add(u);
-			p += BW.UNIT_SIZE_IN_BYTES;
+			p += Offset.UNIT_SIZE_IN_BYTES;
 			u = new Unit(p);
 		}
 		Log.log("getAllUnits count=" + all.size());
@@ -73,10 +74,10 @@ public class Utils {
 	}
 
 	public static int getPlayId() {
-		String playName = BW.getStr(BW.BWDATA_CurrentPlayerName);
+		String playName = BW.getStr(Offset.BWDATA_CurrentPlayerName);
 		Log.log(playName);
 		int playId = -1;
-		for (int i = 0; i < BW.PLAYABLE_PLAYER_COUNT; i++) {
+		for (int i = 0; i < Offset.PLAYABLE_PLAYER_COUNT; i++) {
 			String t = "";
 			if (Main.players[i].name().equals(playName)) {
 				t = "(me)";
@@ -85,8 +86,8 @@ public class Utils {
 			Log.log(Main.players[i].toStr() + t);
 		}
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < BW.PLAYABLE_PLAYER_COUNT; i++) {
-			for (int j = 0; j < BW.PLAYABLE_PLAYER_COUNT; j++) {
+		for (int i = 0; i < Offset.PLAYABLE_PLAYER_COUNT; i++) {
+			for (int j = 0; j < Offset.PLAYABLE_PLAYER_COUNT; j++) {
 				sb.append(" " + Utils.alliance(i, j));
 			}
 			sb.append("\r\n");
@@ -97,8 +98,7 @@ public class Utils {
 
 	public static boolean isBase(Unit u) {
 		int id = u.unitID().id;
-		if (id == UnitID.T_CommandCenter || id == UnitID.Z_Larva
-				|| id == UnitID.P_Nexus) {
+		if (id == UnitID.T_CommandCenter || id == UnitID.Z_Larva || id == UnitID.P_Nexus) {
 			return true;
 		}
 		return false;
@@ -144,12 +144,8 @@ public class Utils {
 			UnitType ut = u.unitID();
 			if (
 			// ut.groupflag(GroupFlag.Men)
-			(ut.groundWeapon().id != WeaponType.None
-					|| ut.airWeapon().id != WeaponType.None || ut
-					.flag(UnitPrototypeFlags.Spellcaster))
-					&& (ut.id != UnitID.Z_Overlord)
-					&& !ut.flag(UnitPrototypeFlags.Worker)
-					&& !ut.flag(UnitPrototypeFlags.Hero))
+			(ut.groundWeapon().id != WeaponType.None || ut.airWeapon().id != WeaponType.None || ut.flag(UnitPrototypeFlags.Spellcaster)) && (ut.id != UnitID.Z_Overlord)
+					&& !ut.flag(UnitPrototypeFlags.Worker) && !ut.flag(UnitPrototypeFlags.Hero))
 				res.add(u);
 		}
 		return res;
@@ -165,7 +161,7 @@ public class Utils {
 	}
 
 	public static int alliance(int pid1, int pid2) {
-		return BW.u8(BW.BWDATA_Alliance + (pid1 * BW.PLAYER_COUNT) + pid2);
+		return BW.u8(Offset.BWDATA_Alliance + (pid1 * Offset.PLAYER_COUNT) + pid2);
 	}
 
 	public static boolean isEnemy(int pid1, int pid2) {
@@ -175,7 +171,7 @@ public class Utils {
 	}
 
 	public static List<Unit> getVisibleEnemies() {
-		int pv = BW.u32(BW.BWDATA_UnitNodeChain_VisibleUnit_First);
+		int pv = BW.u32(Offset.BWDATA_UnitNodeChain_VisibleUnit_First);
 		Unit u = new Unit(pv);
 		List<Unit> all = new ArrayList<Unit>();
 		while (u.base != 0) {
@@ -185,6 +181,21 @@ public class Utils {
 			u = u.nextUnit();
 		}
 		return all;
+	}
+
+	/**
+	 * set game speed (0 is the fastest. Tournament speed is 20), normal is 30
+	 * 
+	 * @param speed
+	 */
+	public static void setGameSpeed(int speed) {
+		if (speed < 0)
+			speed = 0;
+		for (int i = 0; i < 7; ++i) {
+			BW.writeU32(Offset.GameSpeedModifiers + i * 4, speed);
+			BW.writeU32(Offset.GameSpeedModifiers + (i + 7) * 4, speed * 3);
+		}
+
 	}
 
 }

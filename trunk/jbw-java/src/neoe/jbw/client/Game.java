@@ -12,6 +12,7 @@ import neoe.jbw.bw.Position;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.cmd.Command;
 import neoe.jbw.cmd.Name;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.Order;
 
 public class Game implements IGame {
@@ -56,6 +57,7 @@ public class Game implements IGame {
 
 	public void start() {
 		BW.print1(8, "JVM created");
+		Utils.setGameSpeed(1);
 		warStat = new WarStat();
 		selectedLog = new SelectedLog();
 		if (Main.isReplay) {// replay
@@ -73,7 +75,7 @@ public class Game implements IGame {
 			gather = new Gather();
 			trainHelp = new TrainHelp();
 
-			if (BW.u8(BW.BWDATA_gameType) == 10) {// pve game type
+			if (BW.u8(Offset.BWDATA_gameType) == 10) {// pve game type
 				SwingTextArea st = new SwingTextArea();
 				st.append(new Stat().run1(Utils.getVisibleUnits()));
 				st.show();

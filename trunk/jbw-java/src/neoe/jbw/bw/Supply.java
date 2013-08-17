@@ -1,6 +1,7 @@
 package neoe.jbw.bw;
 
 import neoe.jbw.BW;
+import neoe.jbw.data.Offset;
 
 public class Supply extends Struct {
 
@@ -14,20 +15,20 @@ public class Supply extends Struct {
 	}
 
 	private final static int SIZEOFS32 = 4;
-	private final static int ResLen = BW.PLAYER_COUNT * SIZEOFS32;
+	private final static int ResLen = Offset.PLAYER_COUNT * SIZEOFS32;
 	private final static int RaceLen = ResLen * 3;
 
 	public int available() {
-		return BW.u32(BW.BWDATA_Supplies + SIZEOFS32 * id + RaceLen * race);
+		return BW.u32(Offset.BWDATA_Supplies + SIZEOFS32 * id + RaceLen * race);
 	}
 
 	public int used() {
-		return BW.u32(BW.BWDATA_Supplies + SIZEOFS32 * id + ResLen + RaceLen
+		return BW.u32(Offset.BWDATA_Supplies + SIZEOFS32 * id + ResLen + RaceLen
 				* race);
 	}
 
 	public int max() {
-		return BW.u32(BW.BWDATA_Supplies + SIZEOFS32 * id + ResLen * 2
+		return BW.u32(Offset.BWDATA_Supplies + SIZEOFS32 * id + ResLen * 2
 				+ RaceLen * race);
 	}
 }

@@ -1,6 +1,7 @@
 package neoe.jbw.bw;
 
 import neoe.jbw.BW;
+import neoe.jbw.data.Offset;
 
 public class WeaponType {
 	public int id;
@@ -15,9 +16,9 @@ public class WeaponType {
 	public String getName() {
 		if (id == None)
 			return "None";
-		else if (id < BW.WEAPON_TYPE_COUNT) {
+		else if (id < Offset.WEAPON_TYPE_COUNT) {
 			int stringNum = v16(BWDATA_WeaponLabel); 
-			int pv = BW.u32(BW.BWDATA_StringTableOff);
+			int pv = BW.u32(Offset.BWDATA_StringTableOff);
 			return BW.getStr(BW.u16(pv + stringNum * 2) + pv);
 		} else
 			return "Invalid";
@@ -29,15 +30,15 @@ public class WeaponType {
 	}
 
 	private int v16(int field) {
-		return BW.u16(BW.u32(BW.weaponsDat + DatLoadSize * field) + id * 2);
+		return BW.u16(BW.u32(Offset.weaponsDat + DatLoadSize * field) + id * 2);
 	}
 
 	private int v8(int field) {
-		return BW.u8(BW.u32(BW.weaponsDat + DatLoadSize * field) + id);
+		return BW.u8(BW.u32(Offset.weaponsDat + DatLoadSize * field) + id);
 	}
 
 	private int v32(int field) {
-		return BW.u32(BW.u32(BW.weaponsDat + DatLoadSize * field) + id * 4);
+		return BW.u32(BW.u32(Offset.weaponsDat + DatLoadSize * field) + id * 4);
 	}
 
 	// u16 WeaponType::
