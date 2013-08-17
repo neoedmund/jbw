@@ -18,7 +18,7 @@ public class Main {
 	public static void initJVM() {
 		Log.log("initJVM");
 		// load jbwnative.dll
-		System.loadLibrary("jbwnative");
+		System.loadLibrary("jbw");
 		// cprint1();
 	}
 

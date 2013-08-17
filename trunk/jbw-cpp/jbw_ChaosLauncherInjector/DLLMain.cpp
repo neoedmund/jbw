@@ -36,7 +36,7 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
   char newDescription[512];
-  sprintf_s(newDescription, 512, "Injects jbw.dll into the Broodwar process. \r\nCreated by the neoe");
+  sprintf_s(newDescription, 512, "Injects jbw.dll into the Broodwar process. \r\n Chaoslauncher must in Admin mode, or cannot init JVM!!!\r\nCreated by the neoe");
   
   strcpy(name, "jbw (1.16.1)");
   strcpy(description, newDescription);
@@ -64,10 +64,8 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   
   if (result == 0)
   {
-    FILE* f = fopen("jbw-error.txt", "a+");
-    fprintf(f, "Could not find ChaosDir or current directory.\n");
     MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK);
-    fclose(f);
+    return false;
   }
 
   std::string dllFileName(envBuffer);
@@ -75,39 +73,31 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   if (loadLibAddress == NULL)
-  {
-    FILE* f = fopen("jbw-error.txt", "a+");
-    fprintf(f, "Could not get loadLibAddress.\n");
+  {    
     MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK);
-    fclose(f);
+    return false;
   }
 
   void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
   if (pathAddress == NULL)
   {
-    FILE* f = fopen("jbw-error.txt", "a+");
-    fprintf(f, "Could not get pathAddress.\n");
     MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK);
-    fclose(f);
+    return false;
   }
 
   SIZE_T bytesWritten;
   BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
   if (success == FALSE || bytesWritten != dllFileName.size() + 1)
   {
-    FILE* f = fopen("jbw-error.txt", "a+");
-    fprintf(f, "Could not Write proc memory.\n");
     MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK);
-    fclose(f);
+    return false;
   }
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
   if (hThread == NULL)
   {
-    FILE* f = fopen("jbw-error.txt", "a+");
-    fprintf(f, "Could not Create remote thread.\n");
     MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
-    fclose(f);
+    return false;
   }
 
   WaitForSingleObject(hThread, INFINITE);
@@ -116,13 +106,12 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   GetExitCodeThread(hThread, &hLibModule);
   if (hLibModule == NULL)
   {
-    FILE* f = fopen("jbw-error.txt", "a+");
-    fprintf(f, "Could not get hLibModule.\n");
     MessageBoxA(NULL, "Could not get hLibModule.\n", "Error", MB_OK);
-    fclose(f);
+    return false;
   }
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);
+  //MessageBoxA(NULL, dllFileName.c_str(), "OK", MB_OK);
   return true; //everything OK
 }

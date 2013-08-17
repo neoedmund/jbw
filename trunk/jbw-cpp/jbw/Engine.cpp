@@ -13,7 +13,7 @@ namespace BWAPI
 		void onMatchFrame(){
 			if (!jvminit){
 				jvminit=true;
-				Util::Logger::globalLog->log("init jvm onMatchFrame");
+				Util::Logger::globalLog->log("init jvm");
 				JBW::createJVM();
 			}
 			JBW::onMatchFrame();

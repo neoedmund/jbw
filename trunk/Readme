@@ -1,7 +1,7 @@
  J B W 
 
-C++ projects is develop using VC++ 2008 Express.
-Java project is develop using Eclipse, JDK6.
+C++ projects is develop using VC++ 2010 Express.
+Java project is develop using Eclipse, JDK7.
 
 cpp/jbw
 	generates jbw.dll
@@ -11,7 +11,7 @@ cpp/jbw
 cpp/jbw_ChaosLauncherInjector
 	generates chaos plugin bwl file(jbwplugin.bwl), it will load cpp/jbw(jbw.dll)
 
-cpp/jbwnative
+-- cpp/jbwnative (deleted, merged into jbw.dll)
 	generates jbwnative.dll. 
 	which is used my jbwjava to access the BW space. read and write data.
 	it should run on 32bit windows.
@@ -23,3 +23,4 @@ you can also create you own java projects to deal with jbwjava or just write you
 
 neoe
 2009/12/12
+updated 2013/8/18

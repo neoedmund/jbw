@@ -41,7 +41,7 @@ namespace Util
       /** Every log message will be also posted to this global log. */
       static Logger* globalLog;
       static bool deleteLogsAtStart;
-    protected :
+
       virtual bool flush(const char* data) = 0;
       bool flushInternal(const char* data);      
     private :
