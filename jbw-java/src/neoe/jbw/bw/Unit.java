@@ -1,6 +1,7 @@
 package neoe.jbw.bw;
 
 import neoe.jbw.BW;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.UnitPrototypeFlags;
 
 public class Unit extends Struct {
@@ -518,8 +519,8 @@ public class Unit extends Struct {
 	 * Not using typedef to not accidentally imlicitely assign an index value
 	 */
 	public int bwId() {
-		int fromIndex = (base - BW.BWDATA_UnitNodeTable)
-				/ BW.UNIT_SIZE_IN_BYTES + 1;
+		int fromIndex = (base - Offset.BWDATA_UnitNodeTable)
+				/ Offset.UNIT_SIZE_IN_BYTES + 1;
 		return fromIndex + (targetOrderSpecial() << 11);
 	}
 

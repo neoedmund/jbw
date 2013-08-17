@@ -6,6 +6,7 @@ import java.util.List;
 import neoe.jbw.bw.Unit;
 import neoe.jbw.cmd.Command;
 import neoe.jbw.cmd.Name;
+import neoe.jbw.data.Offset;
 
 public class SelectedLog {
 	List<Unit> lastSelect = new ArrayList<Unit>();
@@ -38,7 +39,7 @@ public class SelectedLog {
 
 	public static List<Unit> getSelected() {
 		List<Unit> selected = new ArrayList<Unit>();
-		int p = BW.BWDATA_CurrentPlayerSelectionGroup;
+		int p = Offset.BWDATA_CurrentPlayerSelectionGroup;
 		int pv = BW.u32(p);
 		while (pv != 0) {
 			Unit u = new Unit(pv);

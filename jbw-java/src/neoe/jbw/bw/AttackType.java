@@ -3,9 +3,9 @@ package neoe.jbw.bw;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import neoe.jbw.BW;
 import neoe.jbw.Utils;
 import neoe.jbw.data.AttackTypeID;
+import neoe.jbw.data.Offset;
 import neoe.jbw.data.Order;
 
 public class AttackType extends Struct {
@@ -17,7 +17,7 @@ public class AttackType extends Struct {
 	}
 
 	public AttackType next() {
-		if (base == BW.BWDATA_AttackNodeTable_LastElement)
+		if (base == Offset.BWDATA_AttackNodeTable_LastElement)
 			return null;
 		int addr = u32(0);
 		if (addr == 0)
@@ -26,7 +26,7 @@ public class AttackType extends Struct {
 	}
 
 	public AttackType previous() {
-		if (base == BW.BWDATA_AttackNodeTable_FirstElement)
+		if (base == Offset.BWDATA_AttackNodeTable_FirstElement)
 			return null;
 		int addr = u32(4);
 		if (addr == 0)
