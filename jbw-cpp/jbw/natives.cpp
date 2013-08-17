@@ -5,7 +5,7 @@ extern "C"
 JNIEXPORT void JNICALL 
 Java_neoe_jbw_Main_cprint1(JNIEnv *env, jobject obj)
 {
-	FILE *f = fopen("g:\\cprint1.txt","at");
+	FILE *f = fopen("\\cprint1.txt","at");
 	fprintf(f, "hello jbw \n");
 	fclose(f);
 	return;
